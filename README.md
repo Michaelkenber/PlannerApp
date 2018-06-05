@@ -1,7 +1,7 @@
 # PlannerApp
 
 # Problem Statement
-This app will provide a planner that can optimize a users daily travel time.
+This app will provide a planner that can calculate or optimize a users daily travel time.
 
 # Solution
 This app imports travel times, from the google API. The user will be able to give all daily activities and optimisze travel times.

@@ -12,4 +12,4 @@ Underneath a sketch of the UI is shown. You can also find this file in de the do
 An overview of the classes needed to support this UI are provided in designClassAndDatabase, which is also located in the doc file.
 This file also provides an overview of the database and it functions. The database will need to hold individual travel times
 between locations
-
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/DesignClassAndDatabase.png)

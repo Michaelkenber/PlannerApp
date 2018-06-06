@@ -1,7 +1,7 @@
 # PlannerApp
 
 # Problem Statement
-This app will optimize a users daily travel time.
+This app will provide a planner that can calculate or optimize a users daily travel time.
 
 # Solution
 This app imports travel times, from the google API. The user will be able to give all daily activities and optimisze travel times.
@@ -26,7 +26,7 @@ For the project we will need the folowing data sources:
 * An API key for the travel times retrieved from: https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 * 9292 reisadvies api retrieved from: https://www.9292.nl/zakelijk/9292-reisadvies-api
 
-The TIME planner app has simular features, such as a planner and showing locations for each activity. The planner master app is also somewhat simular. It can also show your day on a map. It does not, however, calculate an optimized travel time. I have found no app that does such a thing.
+The "TIME" planner app has simular features, such as a planner and showing locations for each activity. The "master app" is also somewhat simular. It can also show your day on a map. It does not, however, calculate an optimized travel time. I have found no app that does such a thing.
 
 The hardest part of the app will be calculating the shortest route and making a planning that gives such a route that satisfies all the 
 users' wishes. One difficulty will be capturing these wishes, so that the user will get a daily planning that he will like, but also

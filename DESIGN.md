@@ -5,8 +5,8 @@ All data sources will be pulled from the google maps api. From this api the app 
 * Distance Matrix Api
 
 # UI
-A sketch of the UI is shown in de the doc file under design1. For more clearity, zooms of the sketch are provided
-in designZoom1, designZoom2 and designZoom3.
+Underneath a sketch of the UI is shown. You can also find this file in de the doc zip under design1. For more clearity, zooms of the sketch are provided in designZoom1, designZoom2 and designZoom3.
+![alt text](https://github.com/Michaelkenber/PlannerApp/doc/design1.png)
 
 # Class and Database
 An overview of the classes needed to support this UI are provided in designClassAndDatabase, which is also located in the doc file.

@@ -35,7 +35,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mWY-jX-IOa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-52" y="-51"/>
+            <point key="canvasLocation" x="287.19999999999999" y="-51.724137931034484"/>
         </scene>
         <!--Map-->
         <scene sceneID="8Lv-OG-dhZ">
@@ -74,9 +74,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nLm-dr-xhv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="685.90704647676171" y="-52"/>
+            <point key="canvasLocation" x="1024.8" y="-52.623688155922046"/>
         </scene>
-        <!--Week-->
+        <!--Planner View Controller-->
         <scene sceneID="6gy-e3-V3t">
             <objects>
                 <viewController id="M66-Ot-4pa" customClass="PlannerViewController" customModule="PlannerApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -85,7 +85,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="ZXD-3b-bqQ">
-                                <rect key="frame" x="0.0" y="20" width="375" height="503"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="459"/>
                             </imageView>
                             <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pTJ-Az-u8T">
                                 <rect key="frame" x="0.0" y="523" width="375" height="95"/>
@@ -97,6 +97,9 @@
                                 <state key="normal" title="Add activity">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="DTz-yz-z4S" kind="show" id="P1f-14-q6k"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -111,11 +114,108 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KrM-Pb-uAP"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Week" id="XNV-aX-ENN"/>
+                    <navigationItem key="navigationItem" id="Rg3-Qa-Z2d"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tgh-gd-igJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-820" y="-50.824587706146929"/>
+            <point key="canvasLocation" x="-480.80000000000001" y="-50.824587706146929"/>
+        </scene>
+        <!--Add Activity-->
+        <scene sceneID="7tI-Pk-nI5">
+            <objects>
+                <viewController id="DTz-yz-z4S" customClass="AddActivityViewController" customModule="PlannerApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="plP-q1-Bff">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xY3-ri-aXL">
+                                <rect key="frame" x="0.0" y="523" width="375" height="95"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="95" id="3p4-xM-ovb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                                <state key="normal" title="Calculate best planning">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="kKp-59-ojf" kind="show" id="9hc-mG-ws9"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ActivityScreen" translatesAutoresizingMaskIntoConstraints="NO" id="rR4-gN-2of">
+                                <rect key="frame" x="0.0" y="64" width="375" height="459"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xY3-ri-aXL" firstAttribute="trailing" secondItem="6ls-t7-3bA" secondAttribute="trailing" id="3sa-lw-j5E"/>
+                            <constraint firstItem="rR4-gN-2of" firstAttribute="top" secondItem="6ls-t7-3bA" secondAttribute="top" id="AUd-wT-wx4"/>
+                            <constraint firstItem="xY3-ri-aXL" firstAttribute="leading" secondItem="6ls-t7-3bA" secondAttribute="leading" id="KlD-0Q-9dw"/>
+                            <constraint firstItem="xY3-ri-aXL" firstAttribute="bottom" secondItem="6ls-t7-3bA" secondAttribute="bottom" id="P2S-E7-tGp"/>
+                            <constraint firstItem="xY3-ri-aXL" firstAttribute="top" secondItem="rR4-gN-2of" secondAttribute="bottom" id="S4e-wi-LGx"/>
+                            <constraint firstItem="rR4-gN-2of" firstAttribute="trailing" secondItem="6ls-t7-3bA" secondAttribute="trailing" id="TKf-R3-KKt"/>
+                            <constraint firstItem="rR4-gN-2of" firstAttribute="leading" secondItem="6ls-t7-3bA" secondAttribute="leading" id="saG-fb-9NY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6ls-t7-3bA"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Activity" id="tkN-Qf-P7Z"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="icy-5n-dM0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-481" y="707"/>
+        </scene>
+        <!--Proposed TImetable-->
+        <scene sceneID="8Pb-Cg-rU4">
+            <objects>
+                <viewController id="kKp-59-ojf" customClass="ProposedTimetableViewController" customModule="PlannerApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Blo-fz-YEJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="XeA-zy-PMS">
+                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FSr-Rq-XAA">
+                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="50"/>
+                                        <state key="normal" title="Keep"/>
+                                        <connections>
+                                            <segue destination="OD4-jr-CY2" kind="unwind" unwindAction="unwindToPLannerWithUnwindSegue:" id="DiL-9Q-D55"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Frb-BS-Yz6">
+                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="50"/>
+                                        <state key="normal" title="Next option"/>
+                                        <connections>
+                                            <segue destination="qx9-hO-jsq" kind="show" id="7rK-UA-482"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="sW2-LI-Q1y"/>
+                                </constraints>
+                            </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="Sad-6H-W7p">
+                                <rect key="frame" x="0.0" y="114" width="375" height="504"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="XeA-zy-PMS" firstAttribute="leading" secondItem="Wub-o4-6Sd" secondAttribute="leading" id="Bmf-sB-6AQ"/>
+                            <constraint firstItem="Wub-o4-6Sd" firstAttribute="trailing" secondItem="Sad-6H-W7p" secondAttribute="trailing" id="IXI-r6-FUN"/>
+                            <constraint firstItem="Sad-6H-W7p" firstAttribute="top" secondItem="XeA-zy-PMS" secondAttribute="bottom" id="P4F-Vo-8N3"/>
+                            <constraint firstItem="Sad-6H-W7p" firstAttribute="leading" secondItem="Wub-o4-6Sd" secondAttribute="leading" id="fEP-ZJ-gbJ"/>
+                            <constraint firstItem="Wub-o4-6Sd" firstAttribute="bottom" secondItem="Sad-6H-W7p" secondAttribute="bottom" id="kRx-hh-b4z"/>
+                            <constraint firstItem="XeA-zy-PMS" firstAttribute="top" secondItem="Wub-o4-6Sd" secondAttribute="top" id="nSy-WV-T9W"/>
+                            <constraint firstItem="Wub-o4-6Sd" firstAttribute="trailing" secondItem="XeA-zy-PMS" secondAttribute="trailing" id="q4I-3b-5l5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Wub-o4-6Sd"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Proposed TImetable" id="g3q-CC-jKu"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HsG-rt-3ud" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="OD4-jr-CY2" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-481" y="1461"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ifT-UK-dPH">
@@ -127,7 +227,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="M66-Ot-4pa" kind="relationship" relationship="viewControllers" id="Rj1-Ek-H0v"/>
+                        <segue destination="5n5-gw-n4c" kind="relationship" relationship="viewControllers" id="Rj1-Ek-H0v"/>
                         <segue destination="ZFv-IE-Jnw" kind="relationship" relationship="viewControllers" id="awR-XF-YHc"/>
                         <segue destination="y7a-lR-Hwg" kind="relationship" relationship="viewControllers" id="5D0-6k-gBl"/>
                     </connections>
@@ -136,10 +236,81 @@
             </objects>
             <point key="canvasLocation" x="-53" y="-1222"/>
         </scene>
+        <!--Week-->
+        <scene sceneID="qVs-6N-lp5">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5n5-gw-n4c" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Week" id="XNV-aX-ENN"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Q6k-i9-leR">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="M66-Ot-4pa" kind="relationship" relationship="rootViewController" id="51X-C0-1Mi"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="apd-PD-mRe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1303" y="-53"/>
+        </scene>
+        <!--Proposed TImetable-->
+        <scene sceneID="3QW-cB-3at">
+            <objects>
+                <viewController id="qx9-hO-jsq" customClass="ProposedTimetableViewController" customModule="PlannerApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DeT-iu-N3u">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5cz-PH-UQB">
+                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJR-Vz-aae">
+                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="50"/>
+                                        <state key="normal" title="Keep"/>
+                                        <connections>
+                                            <segue destination="R1b-2q-SOD" kind="unwind" unwindAction="unwindToPLannerWithUnwindSegue:" id="YVv-Gd-uE9"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UAd-jp-Kif">
+                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="50"/>
+                                        <state key="normal" title="Next option"/>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="y84-d1-jva"/>
+                                </constraints>
+                            </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Proposal" translatesAutoresizingMaskIntoConstraints="NO" id="jye-r7-KHk">
+                                <rect key="frame" x="0.0" y="114" width="375" height="504"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="5cz-PH-UQB" firstAttribute="top" secondItem="VaA-kt-acI" secondAttribute="top" id="9rZ-KJ-fin"/>
+                            <constraint firstItem="jye-r7-KHk" firstAttribute="top" secondItem="5cz-PH-UQB" secondAttribute="bottom" id="BnP-W7-yE4"/>
+                            <constraint firstItem="jye-r7-KHk" firstAttribute="leading" secondItem="VaA-kt-acI" secondAttribute="leading" id="NVK-ZG-3rA"/>
+                            <constraint firstItem="VaA-kt-acI" firstAttribute="bottom" secondItem="jye-r7-KHk" secondAttribute="bottom" id="UnB-04-v3o"/>
+                            <constraint firstItem="VaA-kt-acI" firstAttribute="trailing" secondItem="5cz-PH-UQB" secondAttribute="trailing" id="o2L-Po-laG"/>
+                            <constraint firstItem="5cz-PH-UQB" firstAttribute="leading" secondItem="VaA-kt-acI" secondAttribute="leading" id="o4M-hd-M8b"/>
+                            <constraint firstItem="VaA-kt-acI" firstAttribute="trailing" secondItem="jye-r7-KHk" secondAttribute="trailing" id="qKN-oY-Ovt"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="VaA-kt-acI"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Proposed TImetable" id="t9e-1h-e61"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ck5-mX-oCA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="R1b-2q-SOD" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-481" y="2185"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="ActivityScreen" width="251" height="307"/>
         <image name="Background" width="241" height="320"/>
         <image name="Month" width="291" height="472"/>
+        <image name="Proposal" width="319" height="429"/>
         <image name="mapDesign" width="430" height="206"/>
     </resources>
 </document>

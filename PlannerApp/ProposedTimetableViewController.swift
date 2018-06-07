@@ -1,5 +1,5 @@
 //
-//  PlannerViewController.swift
+//  ProposedTimetableViewController.swift
 //  PlannerApp
 //
 //  Created by Michael Berend on 07/06/2018.
@@ -8,8 +8,9 @@
 
 import UIKit
 
-class PlannerViewController: UIViewController {
+class ProposedTimetableViewController: UIViewController {
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +22,5 @@ class PlannerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func unwindToPLanner(unwindSegue: UIStoryboardSegue) {
-    }
 
 }

@@ -15,6 +15,7 @@
 		C400BF6620C53CA40053A96D /* PlannerAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C400BF6520C53CA40053A96D /* PlannerAppTests.swift */; };
 		C400BF7120C53CA40053A96D /* PlannerAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C400BF7020C53CA40053A96D /* PlannerAppUITests.swift */; };
 		C400BF7F20C53D510053A96D /* planner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C400BF7E20C53D510053A96D /* planner.swift */; };
+		C4DB14F220C93D4D00101BB1 /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DB14F120C93D4D00101BB1 /* PlannerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		C400BF7020C53CA40053A96D /* PlannerAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerAppUITests.swift; sourceTree = "<group>"; };
 		C400BF7220C53CA40053A96D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C400BF7E20C53D510053A96D /* planner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = planner.swift; sourceTree = "<group>"; };
+		C4DB14F120C93D4D00101BB1 /* PlannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				C400BF5220C53CA40053A96D /* ViewController.swift */,
 				C400BF5420C53CA40053A96D /* Main.storyboard */,
 				C400BF5720C53CA40053A96D /* Assets.xcassets */,
+				C4DB14F120C93D4D00101BB1 /* PlannerViewController.swift */,
 				C400BF5920C53CA40053A96D /* LaunchScreen.storyboard */,
 				C400BF5C20C53CA40053A96D /* Info.plist */,
 			);
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C400BF5320C53CA40053A96D /* ViewController.swift in Sources */,
+				C4DB14F220C93D4D00101BB1 /* PlannerViewController.swift in Sources */,
 				C400BF7F20C53D510053A96D /* planner.swift in Sources */,
 				C400BF5120C53CA40053A96D /* AppDelegate.swift in Sources */,
 			);

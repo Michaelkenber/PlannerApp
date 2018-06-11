@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-target 'PLannerApp' do
+target 'PlannerApp' do
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 end

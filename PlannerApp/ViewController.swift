@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTAppleCalendar
 
 var monthsArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 var daysPerMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
@@ -14,12 +15,17 @@ var currentMonth = 0
 var currentYear: Int = 0
 
 class ViewController: UIViewController {
+    
+    let formatter = DateFormatter()
+
 
     @IBOutlet weak var rightButton: UIButton!
     
     @IBOutlet weak var leftButton: UIButton!
     
     @IBOutlet weak var monthYearLabel: UILabel!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,4 +60,6 @@ class ViewController: UIViewController {
     }
     
 }
+
+
 

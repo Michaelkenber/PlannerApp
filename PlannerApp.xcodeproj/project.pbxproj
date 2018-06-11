@@ -15,6 +15,7 @@
 		C400BF5B20C53CA40053A96D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C400BF5920C53CA40053A96D /* LaunchScreen.storyboard */; };
 		C400BF6620C53CA40053A96D /* PlannerAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C400BF6520C53CA40053A96D /* PlannerAppTests.swift */; };
 		C400BF7120C53CA40053A96D /* PlannerAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C400BF7020C53CA40053A96D /* PlannerAppUITests.swift */; };
+		C467F0BA20CECCFF006ABA5A /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C467F0B920CECCFF006ABA5A /* Activity.swift */; };
 		C4AA54E620C99D8A002D5711 /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AA54E520C99D8A002D5711 /* PlannerViewController.swift */; };
 		C4BF2ADD20CEAA3E00FE8F9C /* MapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BF2ADC20CEAA3E00FE8F9C /* MapsViewController.swift */; };
 		C4BF2ADF20CEABFE00FE8F9C /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = C4BF2ADE20CEABFE00FE8F9C /* Podfile */; };
@@ -54,9 +55,10 @@
 		C400BF6C20C53CA40053A96D /* PlannerAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlannerAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C400BF7020C53CA40053A96D /* PlannerAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerAppUITests.swift; sourceTree = "<group>"; };
 		C400BF7220C53CA40053A96D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C467F0B920CECCFF006ABA5A /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		C4AA54E520C99D8A002D5711 /* PlannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
 		C4BF2ADC20CEAA3E00FE8F9C /* MapsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsViewController.swift; sourceTree = "<group>"; };
-		C4BF2ADE20CEABFE00FE8F9C /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		C4BF2ADE20CEABFE00FE8F9C /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				C400BF5020C53CA40053A96D /* AppDelegate.swift */,
 				C400BF5220C53CA40053A96D /* ViewController.swift */,
 				C400BF5420C53CA40053A96D /* Main.storyboard */,
+				C467F0B920CECCFF006ABA5A /* Activity.swift */,
 				C4AA54E520C99D8A002D5711 /* PlannerViewController.swift */,
 				C400BF5720C53CA40053A96D /* Assets.xcassets */,
 				C400BF5920C53CA40053A96D /* LaunchScreen.storyboard */,
@@ -336,6 +339,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C467F0BA20CECCFF006ABA5A /* Activity.swift in Sources */,
 				C4BF2ADD20CEAA3E00FE8F9C /* MapsViewController.swift in Sources */,
 				C400BF5320C53CA40053A96D /* ViewController.swift in Sources */,
 				C4AA54E620C99D8A002D5711 /* PlannerViewController.swift in Sources */,

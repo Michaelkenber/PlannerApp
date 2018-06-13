@@ -1,4 +1,7 @@
 PODS:
+  - CalendarLib (2.0):
+    - OrderedDictionary (~> 1.2)
+    - OSCache (~> 1.2)
   - GoogleMaps (2.6.0):
     - GoogleMaps/Maps (= 2.6.0)
   - GoogleMaps/Base (2.6.0)
@@ -7,23 +10,32 @@ PODS:
   - GooglePlaces (2.6.0):
     - GoogleMaps/Base (= 2.6.0)
   - JTAppleCalendar (7.1.5)
+  - OrderedDictionary (1.4)
+  - OSCache (1.2.1)
 
 DEPENDENCIES:
+  - CalendarLib
   - GoogleMaps
   - GooglePlaces
   - JTAppleCalendar (~> 7.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - CalendarLib
     - GoogleMaps
     - GooglePlaces
     - JTAppleCalendar
+    - OrderedDictionary
+    - OSCache
 
 SPEC CHECKSUMS:
+  CalendarLib: 040a8a655376581d8dc7c3c63196ddcf5223f471
   GoogleMaps: 42f91c68b7fa2f84d5c86597b18ceb99f5414c7f
   GooglePlaces: f6ddf33b75cef69e888907d9947c57198ed845f3
   JTAppleCalendar: 2d4f974f9f3c8b4964d51ca1f6e004883c031fbe
+  OrderedDictionary: 138c8d2e358d3a0c9adda15c6c7db24e8e3b09e6
+  OSCache: 826996b68e8542a8a3d8af1ab0a0fc3070d8f357
 
-PODFILE CHECKSUM: 2a9d2bbd11cf24589fda1556d10cec78a9c3357d
+PODFILE CHECKSUM: 7f3c7796eda9c4ae4e845ff6c36c60ab4fe50b0e
 
 COCOAPODS: 1.5.3

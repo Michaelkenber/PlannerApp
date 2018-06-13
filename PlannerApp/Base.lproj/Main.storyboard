@@ -91,7 +91,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Su" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P3Q-TM-HTX">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sa" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P3Q-TM-HTX">
                                         <rect key="frame" x="321.5" y="0.0" width="53.5" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -102,6 +102,50 @@
                                     <constraint firstAttribute="height" constant="40" id="uNW-09-LD1"/>
                                 </constraints>
                             </stackView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PaC-dH-TbR">
+                                <rect key="frame" x="0.0" y="110.5" width="375" height="400"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="400" id="IzI-BE-lNR"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pBC-mn-Ynj">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="kPb-C7-Cd6" customClass="CollectionViewCell" customModule="PlannerApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMj-M4-knv">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="XMj-M4-knv" secondAttribute="bottom" id="8fr-PH-jO5"/>
+                                            <constraint firstAttribute="trailing" secondItem="XMj-M4-knv" secondAttribute="trailing" id="Esk-nM-uXD"/>
+                                            <constraint firstItem="XMj-M4-knv" firstAttribute="leading" secondItem="kPb-C7-Cd6" secondAttribute="leading" id="R23-Ra-rbp"/>
+                                            <constraint firstItem="XMj-M4-knv" firstAttribute="top" secondItem="kPb-C7-Cd6" secondAttribute="top" id="fum-6M-mD9"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="dateLabel" destination="XMj-M4-knv" id="1Cg-Sh-C3S"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="ZFv-IE-Jnw" id="vUA-j4-dXE"/>
+                                    <outlet property="delegate" destination="ZFv-IE-Jnw" id="765-wl-547"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -110,8 +154,11 @@
                             <constraint firstItem="zes-wh-3fD" firstAttribute="top" secondItem="FGb-it-nfc" secondAttribute="topMargin" constant="10" id="F2D-Ss-6Wi"/>
                             <constraint firstItem="Noe-5x-1uH" firstAttribute="leading" secondItem="V9b-V9-TWa" secondAttribute="leading" id="Tw6-hF-a6F"/>
                             <constraint firstItem="zes-wh-3fD" firstAttribute="centerX" secondItem="FGb-it-nfc" secondAttribute="centerX" id="ZiX-GS-Ift"/>
+                            <constraint firstItem="PaC-dH-TbR" firstAttribute="trailing" secondItem="V9b-V9-TWa" secondAttribute="trailing" id="Zld-pb-cgz"/>
                             <constraint firstItem="2tl-ng-u16" firstAttribute="top" secondItem="FGb-it-nfc" secondAttribute="topMargin" id="esJ-nS-siU"/>
+                            <constraint firstItem="PaC-dH-TbR" firstAttribute="top" secondItem="Noe-5x-1uH" secondAttribute="bottom" constant="20" id="ff8-4M-Zb8"/>
                             <constraint firstItem="Noe-5x-1uH" firstAttribute="top" secondItem="zes-wh-3fD" secondAttribute="bottom" id="gfr-eu-R5J"/>
+                            <constraint firstItem="PaC-dH-TbR" firstAttribute="leading" secondItem="V9b-V9-TWa" secondAttribute="leading" id="nmW-LE-nHn"/>
                             <constraint firstItem="V9b-V9-TWa" firstAttribute="trailing" secondItem="2tl-ng-u16" secondAttribute="trailing" id="rM6-kd-NJZ"/>
                             <constraint firstItem="Jxi-Dg-Olk" firstAttribute="leading" secondItem="V9b-V9-TWa" secondAttribute="leading" id="ujz-iC-aaa"/>
                         </constraints>
@@ -119,6 +166,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Month" id="FKE-ks-adV"/>
                     <connections>
+                        <outlet property="collectionVIew" destination="PaC-dH-TbR" id="0MN-cE-yUr"/>
                         <outlet property="leftButton" destination="Jxi-Dg-Olk" id="RET-a5-CBv"/>
                         <outlet property="monthYearLabel" destination="zes-wh-3fD" id="gv4-M2-lIZ"/>
                         <outlet property="rightButton" destination="2tl-ng-u16" id="Uwd-ho-YLG"/>
@@ -144,7 +192,7 @@
             </objects>
             <point key="canvasLocation" x="1024.8" y="-52.623688155922046"/>
         </scene>
-        <!--Planner View Controller-->
+        <!--Calendar-->
         <scene sceneID="6gy-e3-V3t">
             <objects>
                 <viewController id="M66-Ot-4pa" customClass="PlannerViewController" customModule="PlannerApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -152,45 +200,43 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="ZXD-3b-bqQ">
-                                <rect key="frame" x="0.0" y="64" width="375" height="459"/>
-                            </imageView>
-                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pTJ-Az-u8T">
-                                <rect key="frame" x="0.0" y="523" width="375" height="95"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="95" id="Pm3-PD-ZmE"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
-                                <state key="normal" title="Add activity">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="showAlert" destination="M66-Ot-4pa" eventType="touchUpInside" id="9Ye-Ue-k36"/>
-                                </connections>
-                            </button>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xG3-8H-XxG">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Title" id="NxV-WH-o3T"/>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Sub-ZT-jJs">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ZXD-3b-bqQ" firstAttribute="leading" secondItem="KrM-Pb-uAP" secondAttribute="leading" id="CBy-Rd-5vF"/>
-                            <constraint firstItem="pTJ-Az-u8T" firstAttribute="leading" secondItem="KrM-Pb-uAP" secondAttribute="leading" id="L4W-8F-L5n"/>
-                            <constraint firstItem="pTJ-Az-u8T" firstAttribute="trailing" secondItem="KrM-Pb-uAP" secondAttribute="trailing" id="TtB-yy-NPz"/>
-                            <constraint firstItem="ZXD-3b-bqQ" firstAttribute="top" secondItem="KrM-Pb-uAP" secondAttribute="top" id="hfh-F3-9EA"/>
-                            <constraint firstItem="pTJ-Az-u8T" firstAttribute="bottom" secondItem="KrM-Pb-uAP" secondAttribute="bottom" id="oQE-hf-78K"/>
-                            <constraint firstItem="pTJ-Az-u8T" firstAttribute="top" secondItem="ZXD-3b-bqQ" secondAttribute="bottom" id="rfG-Yp-ZdG"/>
-                            <constraint firstItem="KrM-Pb-uAP" firstAttribute="trailing" secondItem="ZXD-3b-bqQ" secondAttribute="trailing" id="sEj-Xr-KkF"/>
+                            <constraint firstItem="KrM-Pb-uAP" firstAttribute="bottom" secondItem="Sub-ZT-jJs" secondAttribute="bottom" id="ECe-yl-dCp"/>
+                            <constraint firstItem="Sub-ZT-jJs" firstAttribute="top" secondItem="KrM-Pb-uAP" secondAttribute="top" id="aOP-P7-Ywb"/>
+                            <constraint firstItem="KrM-Pb-uAP" firstAttribute="trailing" secondItem="Sub-ZT-jJs" secondAttribute="trailing" id="aaH-OC-L0V"/>
+                            <constraint firstItem="Sub-ZT-jJs" firstAttribute="leading" secondItem="KrM-Pb-uAP" secondAttribute="leading" id="eMF-KP-mWO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KrM-Pb-uAP"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Rg3-Qa-Z2d"/>
+                    <navigationItem key="navigationItem" title="Calendar" id="Rg3-Qa-Z2d">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="aSJ-dN-gdJ">
+                            <connections>
+                                <action selector="showAlert" destination="M66-Ot-4pa" id="kIl-1d-mk1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="tableView" destination="Sub-ZT-jJs" id="jKR-LE-3ho"/>
                         <segue destination="DTz-yz-z4S" kind="show" identifier="noOptimize" id="dO0-Eg-EZO"/>
                         <segue destination="2LM-SF-bYU" kind="show" identifier="optimize" id="IhT-Dw-Wnn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tgh-gd-igJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-482" y="-52"/>
+            <point key="canvasLocation" x="-482.39999999999998" y="-52.623688155922046"/>
         </scene>
         <!--Add Activity-->
         <scene sceneID="8TV-Ib-vYR">
@@ -380,7 +426,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q2z-KS-uG9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1394.4000000000001" y="706.59670164917543"/>
+            <point key="canvasLocation" x="-1394" y="707"/>
         </scene>
         <!--Add Activity-->
         <scene sceneID="7tI-Pk-nI5">

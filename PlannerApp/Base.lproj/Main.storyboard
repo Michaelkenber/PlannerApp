@@ -180,7 +180,7 @@
         <scene sceneID="8Lv-OG-dhZ">
             <objects>
                 <viewController id="y7a-lR-Hwg" customClass="MapsViewController" customModule="PlannerApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="hOB-7g-usX">
+                    <view key="view" contentMode="scaleToFill" id="hOB-7g-usX" customClass="GMSMapView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -210,6 +210,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Sub-ZT-jJs">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="M66-Ot-4pa" id="ajz-7t-SPl"/>
+                                    <outlet property="delegate" destination="M66-Ot-4pa" id="eZl-E0-dQG"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -261,6 +265,9 @@
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="addActivity:" destination="2LM-SF-bYU" eventType="editingDidEnd" id="pan-tb-iyZ"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -395,6 +402,7 @@
                                                     </state>
                                                     <connections>
                                                         <action selector="calculateButtonPressed:" destination="2LM-SF-bYU" eventType="touchUpInside" id="vuE-go-GbI"/>
+                                                        <segue destination="yJQ-py-BUl" kind="unwind" unwindAction="unwindToPlannerWithUnwindSegue:" id="Tlj-4d-5sd"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -416,7 +424,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Add Activity" id="7eh-4t-XSB"/>
                     <connections>
-                        <outlet property="activity" destination="ycU-7j-GhI" id="Ve5-Ap-ujR"/>
+                        <outlet property="activityLabel" destination="ycU-7j-GhI" id="t7m-Ch-PcL"/>
                         <outlet property="calculateButton" destination="Eh8-6V-bSa" id="gx4-oG-B8p"/>
                         <outlet property="location" destination="V4D-po-mtF" id="asa-Vu-DJA"/>
                         <outlet property="timeLabel" destination="eCu-Y1-UEt" id="ey1-Fo-3lf"/>
@@ -425,6 +433,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q2z-KS-uG9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="yJQ-py-BUl" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1394" y="707"/>
         </scene>

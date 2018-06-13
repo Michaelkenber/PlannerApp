@@ -10,7 +10,7 @@ import UIKit
 
 class AddActivityTableViewController: UITableViewController, SelectTransportTypeTableViewControllerDelegate {
 
-    @IBOutlet weak var activity: UITextField!
+    @IBOutlet weak var activityLabel: UITextField!
     @IBOutlet weak var location: UITextField!
     
     @IBOutlet weak var timeLabel: UILabel!
@@ -21,6 +21,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
     
     var transportType: TransportType?
     
+    var timeStampe: String!
     
     let timePickerCellIndexPath = IndexPath(row: 1, section: 1)
 
@@ -90,12 +91,21 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         }
     }
     
+    @IBAction func addActivity(_ sender: UITextField) {
+        userData = true
+        activity.append(activityLabel.text!)
+        UserDefaults.standard.set(activity, forKey: "theActivity")
+        time.append(timeStampe)
+        UserDefaults.standard.set(activity, forKey: "theTime")
+        
+    }
     
     func updateViews() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .none
         dateFormatter.timeStyle = .short
-        timeLabel.text = dateFormatter.string(from: timePicker.date)
+        timeStampe = dateFormatter.string(from: timePicker.date)
+        timeLabel.text = timeStampe
     }
     
     func updateTransportType() {
@@ -106,10 +116,10 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         }
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SelectTransportMode" {
             let destinationViewController = segue.destination as? SelectTransportTypeTableViewController
-            
             destinationViewController?.delegate = self
             destinationViewController?.transportType = transportType
         }

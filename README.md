@@ -23,8 +23,11 @@ In the doc folder you can find a visualisation of what the endproduct might look
 
 # Prerequisites
 For the project we will need the folowing data sources:
-* An API key for the travel times retrieved from: https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
-* 9292 reisadvies api retrieved from: https://www.9292.nl/zakelijk/9292-reisadvies-api
+* Google Directions API retrieved from the google developers site
+* Google Distance Matrix API retrieve from the google developers site
+* Google Maps SDK for IOS API retrieved from the google developers site
+* Google Places SDK for IOS API retrieved from the google developers site
+* 9292 reisadvies API retrieved from: https://www.9292.nl/zakelijk/9292-reisadvies-api
 
 The "TIME" planner app has simular features, such as a planner and showing locations for each activity. The "master app" is also somewhat simular. It can also show your day on a map. It does not, however, calculate an optimized travel time. I have found no app that does such a thing.
 

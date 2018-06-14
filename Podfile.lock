@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.7.0)
   - CalendarLib (2.0):
     - OrderedDictionary (~> 1.2)
     - OSCache (~> 1.2)
@@ -12,30 +13,37 @@ PODS:
   - JTAppleCalendar (7.1.5)
   - OrderedDictionary (1.4)
   - OSCache (1.2.1)
+  - SwiftyJSON (4.0.0)
 
 DEPENDENCIES:
+  - Alamofire (~> 4.7)
   - CalendarLib
   - GoogleMaps
   - GooglePlaces
   - JTAppleCalendar (~> 7.0)
+  - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Alamofire
     - CalendarLib
     - GoogleMaps
     - GooglePlaces
     - JTAppleCalendar
     - OrderedDictionary
     - OSCache
+    - SwiftyJSON
 
 SPEC CHECKSUMS:
+  Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
   CalendarLib: 040a8a655376581d8dc7c3c63196ddcf5223f471
   GoogleMaps: 42f91c68b7fa2f84d5c86597b18ceb99f5414c7f
   GooglePlaces: f6ddf33b75cef69e888907d9947c57198ed845f3
   JTAppleCalendar: 2d4f974f9f3c8b4964d51ca1f6e004883c031fbe
   OrderedDictionary: 138c8d2e358d3a0c9adda15c6c7db24e8e3b09e6
   OSCache: 826996b68e8542a8a3d8af1ab0a0fc3070d8f357
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 7f3c7796eda9c4ae4e845ff6c36c60ab4fe50b0e
+PODFILE CHECKSUM: 71bf2af9c8f8ed1700c8a7918004fd780328fe2b
 
 COCOAPODS: 1.5.3

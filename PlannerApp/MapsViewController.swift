@@ -14,10 +14,11 @@ class MapsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        GMSServices.provideAPIKey("AIzaSyDs9-PYsYSVlhHhZJFJ-jyLZ9azoyA1oSY")
+
         let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
         let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         view = mapView
+        print(camera)
         
         // Creates a marker in the center of the map.
         let marker = GMSMarker()

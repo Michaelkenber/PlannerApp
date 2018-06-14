@@ -43,5 +43,12 @@
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow acces to your location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need to acces your location</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>googlechromes</string>
+		<string>comgooglemaps</string>
+	</array>
 </dict>
 </plist>

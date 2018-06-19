@@ -8,6 +8,9 @@ PODS:
   - GoogleMaps/Base (2.6.0)
   - GoogleMaps/Maps (2.6.0):
     - GoogleMaps/Base
+  - GooglePlacePicker (2.6.0):
+    - GoogleMaps (= 2.6.0)
+    - GooglePlaces (= 2.6.0)
   - GooglePlaces (2.6.0):
     - GoogleMaps/Base (= 2.6.0)
   - JTAppleCalendar (7.1.5)
@@ -19,6 +22,7 @@ DEPENDENCIES:
   - Alamofire (~> 4.7)
   - CalendarLib
   - GoogleMaps
+  - GooglePlacePicker
   - GooglePlaces
   - JTAppleCalendar (~> 7.0)
   - SwiftyJSON (~> 4.0)
@@ -28,6 +32,7 @@ SPEC REPOS:
     - Alamofire
     - CalendarLib
     - GoogleMaps
+    - GooglePlacePicker
     - GooglePlaces
     - JTAppleCalendar
     - OrderedDictionary
@@ -38,12 +43,13 @@ SPEC CHECKSUMS:
   Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
   CalendarLib: 040a8a655376581d8dc7c3c63196ddcf5223f471
   GoogleMaps: 42f91c68b7fa2f84d5c86597b18ceb99f5414c7f
+  GooglePlacePicker: e4488625effb006f59de49e14b7a603e463e4261
   GooglePlaces: f6ddf33b75cef69e888907d9947c57198ed845f3
   JTAppleCalendar: 2d4f974f9f3c8b4964d51ca1f6e004883c031fbe
   OrderedDictionary: 138c8d2e358d3a0c9adda15c6c7db24e8e3b09e6
   OSCache: 826996b68e8542a8a3d8af1ab0a0fc3070d8f357
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 71bf2af9c8f8ed1700c8a7918004fd780328fe2b
+PODFILE CHECKSUM: 6e89a324e6257682a41572826a705fbf547a53dc
 
 COCOAPODS: 1.5.3

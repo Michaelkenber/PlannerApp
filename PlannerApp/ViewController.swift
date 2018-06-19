@@ -17,6 +17,9 @@ var currentYear: Int = 0
 var currentDay = 0
 var startDay = 0
 var currentWeekDay = 0
+var startMonth = 0
+var startYear = 0
+var highLightedCell: String!
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -34,12 +37,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBOutlet weak var collectionVIew: UICollectionView!
     
+    @IBOutlet weak var goToDateButton: UIButton!
     
+    var newDate: Date!
+    
+    var month: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        leftButton.isEnabled = false
+        leftButton.isHidden = true
+        goToDateButton.isHidden = true
         currentMonth = Calendar.current.component(.month, from: Date()) - 1
         currentYear = Calendar.current.component(.year, from: Date())
+        startYear = Calendar.current.component(.year, from: Date())
+        startMonth = Calendar.current.component(.month, from: Date()) - 1
         currentWeekDay = Calendar.current.component(.weekday, from: Date())
         currentDay = Calendar.current.component(.day, from: Date())
         startDay = (7 + (3 - (currentDay%7 - 1)))%7
@@ -60,7 +72,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             currentMonth = 0
 
         }
+        leftButton.isEnabled = true
+        leftButton.isHidden = false
         print(startDay)
+        goToDateButton.isHidden = true
         updateUI()
         
     }
@@ -71,6 +86,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             currentYear -= 1
             currentMonth = 11
         }
+        if (currentMonth == startMonth && currentYear == startYear) {
+            leftButton.isEnabled = false
+            leftButton.isHidden = true
+        }
+        goToDateButton.isHidden = true
         updateUI()
     }
     
@@ -84,8 +104,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         for item in items {
             temp.append(item)
         }
-        let month = monthsArray[currentMonth]
-        monthYearLabel.text = "\(month) \(currentYear)"
+        month = monthsArray[currentMonth]
+        monthYearLabel.text = "\(month!) \(currentYear)"
         collectionVIew.reloadData()
     }
     
@@ -98,7 +118,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! CollectionViewCell
         
         cell.dateLabel.text = self.temp[indexPath.item]
-        cell.backgroundColor = UIColor.darkGray
+        cell.backgroundColor = UIColor.blue
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 8
@@ -109,14 +129,41 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("You selected cell #\(indexPath.item)!")
+
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
-        if cell?.backgroundColor == UIColor.red {
-            cell?.backgroundColor = UIColor.darkGray
-        } else {
-            cell?.backgroundColor = UIColor.red
+    
+        if indexPath.item > startDay - 2 {
+            if cell?.backgroundColor == UIColor.red {
+                cell?.backgroundColor = UIColor.blue
+            } else {
+                for cell in collectionView.visibleCells as [UICollectionViewCell] {
+                    cell.backgroundColor = UIColor.blue
+                }
+                cell?.backgroundColor = UIColor.red
+            }
         }
+        highLightedCell = self.temp[indexPath.item]
+        if items.contains(highLightedCell) {
+            goToDateButton.isHidden = false
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender:
+        Any?) {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        let currentDate = "\(month!) \(highLightedCell!), \(currentYear)"
+        print(currentDate)
+        newDate = formatter.date(from: currentDate)
+        print(newDate!)
+         
+        
+        super.prepare(for: segue, sender: sender)
+        //guard segue.identifier == "saveUnwind" else { return }
+        
     }
 }

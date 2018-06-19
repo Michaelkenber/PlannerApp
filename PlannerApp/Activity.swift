@@ -8,14 +8,18 @@
 
 import Foundation
 
-enum Transport {
-    case car, walking, bycicle, train
-}
 
 struct Activity {
     var activity: String
     var time: Date
     var location: String
-    var transport: Transport
-    var preferences: [String]
+    var transport: String
+    var timeString: String
+    //var preferences: [String]
+    
+    static func < (lhs: Activity, rhs: Activity) -> Bool {
+        return lhs.time < rhs.time
+    }
 }
+
+

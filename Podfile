@@ -6,4 +6,5 @@ target 'PlannerApp' do
     pod "CalendarLib"
     pod 'SwiftyJSON', '~> 4.0'
     pod 'Alamofire', '~> 4.7'
+    pod 'GooglePlacePicker'
 end

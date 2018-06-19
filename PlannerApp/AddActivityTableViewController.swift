@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import GoogleMaps
+import GooglePlaces
 
-class AddActivityTableViewController: UITableViewController, SelectTransportTypeTableViewControllerDelegate {
+class AddActivityTableViewController: UITableViewController, SelectTransportTypeTableViewControllerDelegate, GMSMapViewDelegate ,  CLLocationManagerDelegate {
 
     @IBOutlet weak var activityLabel: UITextField!
     @IBOutlet weak var location: UITextField!
@@ -19,11 +21,22 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
     @IBOutlet weak var transportTypeLabel: UILabel!
     @IBOutlet weak var calculateButton: UIButton!
     
+    var locationManager = CLLocationManager()
+    var locationSelected = Location.startLocation
+    
+    var locationStart = CLLocation()
+    var locationEnd = CLLocation()
+    
+    
+
+    
+    
     var transportType: TransportType?
     
     var timeStampe: String!
     
     let timePickerCellIndexPath = IndexPath(row: 1, section: 1)
+    let buttonlIndexPath = IndexPath(row: 1, section: 3)
 
     var timePickerShown: Bool = false {
         didSet {
@@ -37,7 +50,9 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         timePicker.minimumDate = today
         timePicker.date = today
         timePicker.datePickerMode = UIDatePickerMode.time
-        
+        calculateButton.isEnabled = false
+        calculateButton.isUserInteractionEnabled = false
+        calculateButton.alpha = 0.5
         updateViews()
     }
     
@@ -86,8 +101,17 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
 
     @IBAction func calculateButtonPressed(_ sender: UIButton) {
         UIView.animate(withDuration: 0.2) {
-            self.calculateButton.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
-            self.calculateButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            if self.calculateButton.isEnabled {
+                self.calculateButton.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                self.calculateButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                let addedActivity = Activity(activity: self.activityLabel.text!, time: self.timePicker.date, location: self.location.text!, transport: self.transportTypeLabel.text!, timeString: self.timeStampe)
+                addedActivities.append(addedActivity)
+                dateDictionary["\(selectedDate)"] = addedActivities
+                
+                //UserDefaults.standard.set(self.addedActivities, forKey: "theActivities")
+            }
+            
+            
         }
     }
     
@@ -96,8 +120,8 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         activity.append(activityLabel.text!)
         UserDefaults.standard.set(activity, forKey: "theActivity")
         time.append(timeStampe)
-        UserDefaults.standard.set(activity, forKey: "theTime")
-        
+        UserDefaults.standard.set(time, forKey: "theTime")
+        showButton()
     }
     
     func updateViews() {
@@ -114,6 +138,15 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         } else {
             transportTypeLabel.text = "Select transport mode"
         }
+        showButton()
+    }
+    
+    func showButton() {
+        if transportTypeLabel.text != "Select transport mode" && location.text != "" && activityLabel.text != "" {
+            calculateButton.isEnabled = true
+            calculateButton.isUserInteractionEnabled = true
+            calculateButton.alpha = 1
+        }
     }
     
     
@@ -124,5 +157,36 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
             destinationViewController?.transportType = transportType
         }
     }
-
+    
+    @IBAction func openStartLocation(_ sender: UIButton) {
+        
+        let autoCompleteController = GMSAutocompleteViewController()
+        autoCompleteController.delegate = self as? GMSAutocompleteViewControllerDelegate
+        
+        // selected location
+        locationSelected = .startLocation
+        
+        // Change text color
+        UISearchBar.appearance().setTextColor(color: UIColor.black)
+        self.locationManager.stopUpdatingLocation()
+        
+        self.present(autoCompleteController, animated: true, completion: nil)
+    }
 }
+
+extension AddActivityTableViewController: GMSAutocompleteViewControllerDelegate {
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        location.text = "\(place.name)"
+        self.dismiss(animated: true, completion: nil)
+        showButton()
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        print("Error \(error)")
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+

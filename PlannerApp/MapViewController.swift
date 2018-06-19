@@ -126,8 +126,9 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
         let origin = "\(startLocation.coordinate.latitude),\(startLocation.coordinate.longitude)"
         let destination = "\(endLocation.coordinate.latitude),\(endLocation.coordinate.longitude)"
         
+        let url2 = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destinations=\(destination)&mode=bicycling"
         
-        let url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode=driving"
+        let url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode=driving&key=YOUR_API_KEY"
         
         Alamofire.request(url).responseJSON { response in
             
@@ -153,6 +154,18 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
                 }
             } catch {
                     print(error)
+            }
+        }
+        Alamofire.request(url2).responseJSON { response in
+            
+            print("Nu begiunt duration")
+            do {
+                
+                let json = try JSON(data: response.data!)
+                let travelTime = json["rows"][0]["elements"][0]["duration"]["value"]
+                print(travelTime)
+            } catch {
+                print(error)
             }
         }
     }

@@ -8,34 +8,46 @@
 
 import UIKit
 
+var addedActivities = [Activity]()
 var activity = [String]()
 var time = [String]()
 var userData = false
+var dateDictionary: [String: [Activity]] = [:]
+var selectedDate = String()
 
 class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var titlePlanner: UINavigationItem!
     
     @IBOutlet weak var tableView: UITableView!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(activity.count)
-        return activity.count
+        print(addedActivities.count)
+        return addedActivities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: nil)
         print(time)
-        cell.textLabel?.text = "\(activity[indexPath.row]) at \(time[indexPath.row])"
+        var sortedActivities = addedActivities.sorted(by: <)
+        cell.textLabel?.text = "\(sortedActivities[indexPath.row].activity) at \(sortedActivities[indexPath.row].timeString)"
+        
         return cell
     }
     
     override func viewDidAppear(_ animated: Bool) {
-
+        selectedDate = titlePlanner.title!
         tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        let currentDate = formatter.string(from: date)
+        titlePlanner.title = currentDate
+        selectedDate = currentDate
         
         userData = UserDefaults.standard.bool(forKey: "userData")
         
@@ -98,6 +110,28 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
             tableView.deleteRows(at: [indexPath], with: . automatic)
             UserDefaults.standard.set(activity, forKey: "theEvent")
         }
+        tableView.reloadData()
+    }
+    
+    @IBAction func unwindToDate(segue: UIStoryboardSegue)
+    {
+
+         //guard segue.identifier == "saveUnwind" else { return }
+         let sourceViewController = segue.source as!
+         ViewController
+         if let newDate = sourceViewController.newDate {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            let currentDate = formatter.string(from: newDate)
+            titlePlanner.title = "\(currentDate)"
+            if let value = dateDictionary["\(currentDate)"] {
+                addedActivities = value
+            } else {
+                dateDictionary["\(currentDate)"] = []
+                addedActivities = dateDictionary["\(currentDate)"]!
+            }
+        
+         }
         tableView.reloadData()
     }
 

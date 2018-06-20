@@ -19,3 +19,6 @@ I managed to incorporate google distance api into my code and retrieve the dista
 
 ## 19 juni
 Today i finally managed to link the calendar dates in the months section to the daily calendar. The daily activities of one date will not be lost if switched to another date, which is very nice. The calendar is finally starting to function as a real calendar would. I have made a dictionary which holds a date as the key value and a list of instances of the activity struct. With all this in place, i believe i can have a functioning daily map for tommorow. The calendar displays all activities chronologically, however it does not account for overlapping events. This is something that i need to take a look at after i have made a functioning map.
+
+## 20 juni
+Emma told me today that google has a calendar API. I was dissappointed to learn this, because i have spent a lot of time working on my own calendar and getting it to work. I did learn a lot from it though. Today i managed to visualise the day in a map and the routes from activity to activity. I had some struggles because my app did work on my simulator on the computer, but it did not work on my phone. After a lot of print statements and google searches i realised that this was because my computer has its time settings in US style, while my phone has its settings in the UK style.

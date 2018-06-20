@@ -24,8 +24,8 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
     var locationManager = CLLocationManager()
     var locationSelected = Location.startLocation
     
-    var locationStart = CLLocation()
-    var locationEnd = CLLocation()
+    var locationCoordinates = CLLocation()
+
     
     
 
@@ -104,7 +104,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
             if self.calculateButton.isEnabled {
                 self.calculateButton.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
                 self.calculateButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                let addedActivity = Activity(activity: self.activityLabel.text!, time: self.timePicker.date, location: self.location.text!, transport: self.transportTypeLabel.text!, timeString: self.timeStampe)
+                let addedActivity = Activity(activity: self.activityLabel.text!, time: self.timePicker.date, location: self.location.text!, transport: self.transportTypeLabel.text!, timeString: self.timeStampe, coordinates: self.locationCoordinates)
                 addedActivities.append(addedActivity)
                 dateDictionary["\(selectedDate)"] = addedActivities
                 
@@ -177,6 +177,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
 extension AddActivityTableViewController: GMSAutocompleteViewControllerDelegate {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         location.text = "\(place.name)"
+        locationCoordinates = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
         self.dismiss(animated: true, completion: nil)
         showButton()
     }
@@ -188,5 +189,15 @@ extension AddActivityTableViewController: GMSAutocompleteViewControllerDelegate 
     func wasCancelled(_ viewController: GMSAutocompleteViewController) {
         self.dismiss(animated: true, completion: nil)
     }
+}
+
+public extension UISearchBar {
+    
+    public func setTextColor(color: UIColor) {
+        let svs = subviews.flatMap { $0.subviews }
+        guard let tf = (svs.filter { $0 is UITextField }).first as? UITextField else { return }
+        tf.textColor = color
+    }
+    
 }
 

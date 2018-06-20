@@ -159,7 +159,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let currentDate = "\(month!) \(highLightedCell!), \(currentYear)"
         print(currentDate)
         newDate = formatter.date(from: currentDate)
-        print(newDate!)
+
          
         
         super.prepare(for: segue, sender: sender)

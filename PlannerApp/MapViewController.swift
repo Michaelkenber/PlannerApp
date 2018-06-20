@@ -2,6 +2,8 @@
 //  MapViewController.swift
 //  PlannerApp
 //
+// Change map location
+//let camera = GMSCameraPosition.camera(withLatitude: place.coordinate.latitude, longitude: place.coordinate.longitude, zoom: 16.0
 //  Created by Michael Berend on 14/06/2018.
 //  Copyright © 2018 Michael Berend. All rights reserved.
 //
@@ -19,8 +21,6 @@ enum Location {
 class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationManagerDelegate {
     
     @IBOutlet weak var googleMaps: GMSMapView!
-    @IBOutlet weak var startLocation: UITextField!
-    @IBOutlet weak var destinationLocation: UITextField!
     
     
     var locationManager = CLLocationManager()
@@ -41,7 +41,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
         
 
         //Your map initiation code
-        let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
+        let camera = GMSCameraPosition.camera(withLatitude: 52.0907, longitude: 5.1214, zoom: 4.0)
         
         print(camera)
 
@@ -52,6 +52,24 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
         self.googleMaps.settings.compassButton = true
         self.googleMaps.settings.zoomGestures = true
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        googleMaps.clear()
+        if let dailyActivities = dateDictionary[selectedDate] {
+            var locations = [CLLocation]()
+            let sortedActivities = dailyActivities.sorted(by: <)
+            for activity in sortedActivities {
+                locations.append(activity.coordinates)
+            }
+            if locations.count > 0 {
+                for index in 0...(locations.count - 2) {
+                    drawPath(startLocation: locations[index], endLocation: locations[index + 1])
+                    createMarker(titleMarker: sortedActivities[index].activity, iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: locations[index].coordinate.latitude, longitude: locations[index].coordinate.longitude)
+                }
+                createMarker(titleMarker: (sortedActivities.last?.activity)!, iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: (locations.last?.coordinate.latitude)!, longitude: (locations.last?.coordinate.longitude)!)
+            }
+        }
     }
     
     // MARK: function for create a marker pin on map
@@ -69,6 +87,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
         print("Error to get location : \(error)")
     }
     
+    /*
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let location = locations.last
@@ -87,6 +106,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
         self.locationManager.stopUpdatingLocation()
         
     }
+    */
     
     // MARK: - GMSMapViewDelegate
     
@@ -126,20 +146,14 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
         let origin = "\(startLocation.coordinate.latitude),\(startLocation.coordinate.longitude)"
         let destination = "\(endLocation.coordinate.latitude),\(endLocation.coordinate.longitude)"
         
-        let url2 = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destinations=\(destination)&mode=bicycling"
-        
-        let url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode=driving&key=YOUR_API_KEY"
+        let url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode=driving&key=AIzaSyDs9-PYsYSVlhHhZJFJ-jyLZ9azoyA1oSY"
         
         Alamofire.request(url).responseJSON { response in
-            
-            print(response.request as Any)  // original URL request
-            print(response.response as Any) // HTTP URL response
-            print(response.data as Any)     // server data
-            print(response.result as Any)   // result of response serialization
+
             do {
-            
                 let json = try JSON(data: response.data!)
                 let routes = json["routes"].arrayValue
+                print("\(routes)")
                 
                 // print route using Polyline
                 for route in routes
@@ -153,114 +167,8 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
                     polyline.map = self.googleMaps
                 }
             } catch {
-                    print(error)
-            }
-        }
-        Alamofire.request(url2).responseJSON { response in
-            
-            print("Nu begiunt duration")
-            do {
-                
-                let json = try JSON(data: response.data!)
-                let travelTime = json["rows"][0]["elements"][0]["duration"]["value"]
-                print(travelTime)
-            } catch {
                 print(error)
             }
         }
     }
-    
-    // MARK: when start location tap, this will open the search location
-    @IBAction func openStartLocation(_ sender: UIButton) {
-        
-        let autoCompleteController = GMSAutocompleteViewController()
-        autoCompleteController.delegate = (self as! GMSAutocompleteViewControllerDelegate)
-        
-        // selected location
-        locationSelected = .startLocation
-        
-        // Change text color
-        UISearchBar.appearance().setTextColor(color: UIColor.black)
-        self.locationManager.stopUpdatingLocation()
-        
-        self.present(autoCompleteController, animated: true, completion: nil)
-    }
-    
-    // MARK: when destination location tap, this will open the search location
-    @IBAction func openDestinationLocation(_ sender: UIButton) {
-        
-        let autoCompleteController = GMSAutocompleteViewController()
-        autoCompleteController.delegate = (self as! GMSAutocompleteViewControllerDelegate)
-        
-        // selected location
-        locationSelected = .destinationLocation
-        
-        // Change text color
-        UISearchBar.appearance().setTextColor(color: UIColor.black)
-        self.locationManager.stopUpdatingLocation()
-        
-        self.present(autoCompleteController, animated: true, completion: nil)
-    }
-    
-    
-    // MARK: SHOW DIRECTION WITH BUTTON
-    @IBAction func showDirection(_ sender: UIButton) {
-        // when button direction tapped, must call drawpath func
-        self.drawPath(startLocation: locationStart, endLocation: locationEnd)
-    }
-    
-}
-
-// MARK: - GMS Auto Complete Delegate, for autocomplete search location
-extension MapViewController: GMSAutocompleteViewControllerDelegate {
-    
-    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        print("Error \(error)")
-    }
-    
-    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        
-        // Change map location
-        let camera = GMSCameraPosition.camera(withLatitude: place.coordinate.latitude, longitude: place.coordinate.longitude, zoom: 16.0
-        )
-        
-        // set coordinate to text
-        if locationSelected == .startLocation {
-            startLocation.text = "\(place.coordinate.latitude), \(place.coordinate.longitude)"
-            locationStart = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-            createMarker(titleMarker: "Location Start", iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-        } else {
-            destinationLocation.text = "\(place.coordinate.latitude), \(place.coordinate.longitude)"
-            locationEnd = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-            createMarker(titleMarker: "Location End", iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-        }
-        
-        
-        self.googleMaps.camera = camera
-        self.dismiss(animated: true, completion: nil)
-        
-    }
-    
-    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-    }
-    
-    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    }
-    
-}
-
-public extension UISearchBar {
-    
-    public func setTextColor(color: UIColor) {
-        let svs = subviews.flatMap { $0.subviews }
-        guard let tf = (svs.filter { $0 is UITextField }).first as? UITextField else { return }
-        tf.textColor = color
-    }
-    
 }

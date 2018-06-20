@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import GooglePlaces
 
 
 struct Activity {
@@ -15,6 +16,7 @@ struct Activity {
     var location: String
     var transport: String
     var timeString: String
+    var coordinates: CLLocation
     //var preferences: [String]
     
     static func < (lhs: Activity, rhs: Activity) -> Bool {

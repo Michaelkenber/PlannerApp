@@ -38,7 +38,7 @@ class SelectTransportTypeTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransportTypeCell", for: indexPath)
-        var transportType = TransportType.all[indexPath.row]
+        let transportType = TransportType.all[indexPath.row]
         
         cell.textLabel?.text = transportType.name
         

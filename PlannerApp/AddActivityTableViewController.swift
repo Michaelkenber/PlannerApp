@@ -9,6 +9,12 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import Alamofire
+import SwiftyJSON
+
+var travelTime = 0
+
+
 
 class AddActivityTableViewController: UITableViewController, SelectTransportTypeTableViewControllerDelegate, GMSMapViewDelegate ,  CLLocationManagerDelegate {
 
@@ -16,6 +22,10 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
     @IBOutlet weak var location: UITextField!
     
     @IBOutlet weak var timeLabel: UILabel!
+    
+    @IBOutlet weak var endTimeLabel: UILabel!
+    
+    @IBOutlet weak var endTimePicker: UIDatePicker!
     @IBOutlet weak var timePicker: UIDatePicker!
     
     @IBOutlet weak var transportTypeLabel: UILabel!
@@ -35,8 +45,10 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
     
     var timeStampe: String!
     
+    var timeStampe2: String!
+    
     let timePickerCellIndexPath = IndexPath(row: 1, section: 1)
-    let buttonlIndexPath = IndexPath(row: 1, section: 3)
+    let endTimePickerCellIndexPath = IndexPath(row: 3, section: 1)
 
     var timePickerShown: Bool = false {
         didSet {
@@ -44,12 +56,20 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         }
     }
     
+    var endTimePickerShown: Bool = false {
+        didSet {
+            endTimePicker.isHidden = !endTimePickerShown
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let today = Calendar.current.startOfDay(for: Date())
         timePicker.minimumDate = today
+        endTimePicker.minimumDate = today
         timePicker.date = today
-        timePicker.datePickerMode = UIDatePickerMode.time
+        endTimePicker.date = today
+        //timePicker.datePickerMode = UIDatePickerMode.time
         calculateButton.isEnabled = false
         calculateButton.isUserInteractionEnabled = false
         calculateButton.alpha = 0.5
@@ -75,6 +95,12 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
             } else {
                 return 0
             }
+        case (endTimePickerCellIndexPath.section, endTimePickerCellIndexPath.row):
+            if endTimePickerShown {
+                return 216.0
+            } else {
+                return 0
+            }
         default:
             return 44.0
         }
@@ -88,8 +114,25 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
             
             if timePickerShown {
                 timePickerShown = false
+            } else if endTimePickerShown {
+                endTimePickerShown = false
+                timePickerShown = true
             } else {
                 timePickerShown = true
+            }
+            
+            tableView.beginUpdates()
+            tableView.endUpdates()
+            
+        case (endTimePickerCellIndexPath.section, endTimePickerCellIndexPath.row - 1):
+            
+            if endTimePickerShown {
+                endTimePickerShown = false
+            } else if timePickerShown {
+                timePickerShown = false
+                endTimePickerShown = true
+            } else {
+                endTimePickerShown = true
             }
             
             tableView.beginUpdates()
@@ -104,9 +147,47 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
             if self.calculateButton.isEnabled {
                 self.calculateButton.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
                 self.calculateButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                let addedActivity = Activity(activity: self.activityLabel.text!, time: self.timePicker.date, location: self.location.text!, transport: self.transportTypeLabel.text!, timeString: self.timeStampe, coordinates: self.locationCoordinates)
-                addedActivities.append(addedActivity)
-                dateDictionary["\(selectedDate)"] = addedActivities
+                let addedActivity = Activity(activity: self.activityLabel.text!, time: self.timePicker.date, endTime: self.endTimePicker.date, location: self.location.text!, transport: self.transportTypeLabel.text!, timeString: self.timeStampe, endTimeString: self.timeStampe2, coordinates: self.locationCoordinates, travelTime: 0)
+                var temp = true
+                for activity in addedActivities {
+                    if (addedActivity.time >= activity.time && addedActivity.time <= activity.endTime) ||  (addedActivity.endTime >= activity.time && addedActivity.endTime <= activity.endTime) || ( addedActivity.time <= activity.time && addedActivity.endTime >= activity.endTime) {
+                        temp = false
+                        
+                        let alertController = UIAlertController(title: "Eror", message: "There is already an activity planned during this period of time. Please change time.", preferredStyle: .alert)
+                        
+                        let declineAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                        
+                        alertController.addAction(declineAction)
+                        
+                        
+                        self.present(alertController, animated: true, completion: nil)
+                        
+                    }
+                }
+                if temp == true {
+                    addedActivities.append(addedActivity)
+                    if addedActivities.count > 1 {
+                        self.calculateTravelTime(startLocation: addedActivities[addedActivities.count-2].coordinates, endLocation: addedActivities[addedActivities.count-1].coordinates, transportationMode: addedActivities[addedActivities.count-1].transport, completion: { time -> () in
+                            travelTime = travelTime
+                            })
+                        addedActivities[addedActivities.count-1].travelTime = travelTime
+                        print("The travel time = \(travelTime)")
+                        
+                        let travelTimeStart = Calendar.current.date(byAdding: .second, value: -travelTime, to: (addedActivities.last?.time)!)
+                        print(travelTimeStart!)
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateStyle = .none
+                        dateFormatter.timeStyle = .short
+                        let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-2].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[addedActivities.count-2].coordinates, travelTime: 0)
+                        let time = dateFormatter.string(from: travelTimeStart!)
+                        print("The time is \(time)")
+                        print(travelActivity.time)
+                        print(travelActivity.timeString)
+                        addedActivities.append(travelActivity)
+                    }
+                    
+                    dateDictionary["\(selectedDate)"] = addedActivities
+                }
                 
                 //UserDefaults.standard.set(self.addedActivities, forKey: "theActivities")
             }
@@ -114,6 +195,8 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
             
         }
     }
+    
+    
     
     @IBAction func addActivity(_ sender: UITextField) {
         userData = true
@@ -129,6 +212,13 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         dateFormatter.dateStyle = .none
         dateFormatter.timeStyle = .short
         timeStampe = dateFormatter.string(from: timePicker.date)
+        timeStampe2 = dateFormatter.string(from: endTimePicker.date)
+        if endTimePicker.date < timePicker.date {
+            endTimePicker.minimumDate = timePicker.date
+            endTimeLabel.text = timeStampe
+        } else {
+            endTimeLabel.text = timeStampe2
+        }
         timeLabel.text = timeStampe
     }
     
@@ -161,7 +251,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
     @IBAction func openStartLocation(_ sender: UIButton) {
         
         let autoCompleteController = GMSAutocompleteViewController()
-        autoCompleteController.delegate = self as? GMSAutocompleteViewControllerDelegate
+        autoCompleteController.delegate = self as GMSAutocompleteViewControllerDelegate
         
         // selected location
         locationSelected = .startLocation
@@ -171,6 +261,31 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         self.locationManager.stopUpdatingLocation()
         
         self.present(autoCompleteController, animated: true, completion: nil)
+    }
+    
+    func calculateTravelTime(startLocation: CLLocation, endLocation: CLLocation, transportationMode: String, completion: @escaping (Int) -> Void) -> Int {
+        //Import JSON, import Swifty
+        
+        
+        let origin = "\(startLocation.coordinate.latitude),\(startLocation.coordinate.longitude)"
+        let destination = "\(endLocation.coordinate.latitude),\(endLocation.coordinate.longitude)"
+        
+        let url2 = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destinations=\(destination)&mode=\(transportationMode)&key=AIzaSyDs9-PYsYSVlhHhZJFJ-jyLZ9azoyA1oSY"
+        
+        
+        Alamofire.request(url2).responseJSON { response in
+         
+         do {
+         
+            let json = try JSON(data: response.data!)
+            travelTime = json["rows"][0]["elements"][0]["duration"]["value"].intValue
+            print(" The travel time is: \(travelTime)")
+            completion(travelTime)
+         } catch {
+            print("Komt deze functie hier?")
+            }
+        }
+        return travelTime
     }
 }
 
@@ -198,6 +313,13 @@ public extension UISearchBar {
         guard let tf = (svs.filter { $0 is UITextField }).first as? UITextField else { return }
         tf.textColor = color
     }
-    
 }
 
+public extension UISearchBar {
+    
+    public func setPlaceHolder(string: String) {
+        let svs = subviews.flatMap { $0.subviews }
+        guard let tf = (svs.filter { $0 is UITextField }).first as? UITextField else { return }
+        tf.placeholder = string
+    }
+}

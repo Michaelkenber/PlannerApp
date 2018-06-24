@@ -13,7 +13,7 @@ struct TransportType: Equatable {
     var name: String
     
     static var all: [TransportType] {
-        return[TransportType(id: 0, name: "Walking"), TransportType(id: 1, name: "Bycicle"), TransportType(id: 2, name: "Car"), TransportType(id: 3, name: "Train")]
+        return[TransportType(id: 0, name: "walking"), TransportType(id: 1, name: "bicycling"), TransportType(id: 2, name: "driving"), TransportType(id: 3, name: "transit")]
     }
 }
 

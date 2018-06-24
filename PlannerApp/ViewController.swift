@@ -7,8 +7,7 @@
 //
 
 import UIKit
-import JTAppleCalendar
-
+import Foundation
 
 var monthsArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 var daysPerMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
@@ -52,12 +51,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         currentYear = Calendar.current.component(.year, from: Date())
         startYear = Calendar.current.component(.year, from: Date())
         startMonth = Calendar.current.component(.month, from: Date()) - 1
-        currentWeekDay = Calendar.current.component(.weekday, from: Date())
+        currentWeekDay = Calendar.current.component(.weekday, from: Date()) - 1
         currentDay = Calendar.current.component(.day, from: Date())
-        startDay = (7 + (3 - (currentDay%7 - 1)))%7
+        startDay = (7 + (currentWeekDay - currentDay%7))%7
+        print("Startday is: \(startDay)")
         print(currentDay)
         print(currentWeekDay)
         print(startDay)
+        print(currentMonth)
+        print(currentYear)
+        print(currentWeekDay)
+        print(currentDay)
 
         
         updateUI()
@@ -66,6 +70,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBAction func rightButtonPressed(_ sender: UIButton) {
         startDay = (startDay + daysPerMonth[currentMonth]%7)%7
+        print("Startday is: \(startDay)")
         currentMonth += 1
         if currentMonth > 11{
             currentYear += 1
@@ -74,7 +79,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         leftButton.isEnabled = true
         leftButton.isHidden = false
-        print(startDay)
         goToDateButton.isHidden = true
         updateUI()
         
@@ -97,12 +101,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func updateUI() {
         temp.removeAll()
         if startDay - 1 > 0 {
-            for _ in 1...(startDay - 1) {
+            for _ in 1...startDay {
                 temp.append(" ")
             }
         }
-        for item in items {
-            temp.append(item)
+        for index in 1...daysPerMonth[currentMonth] {
+            temp.append("\(index)")
         }
         month = monthsArray[currentMonth]
         monthYearLabel.text = "\(month!) \(currentYear)"
@@ -118,26 +122,32 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! CollectionViewCell
         
         cell.dateLabel.text = self.temp[indexPath.item]
+        
         cell.backgroundColor = UIColor.blue
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 8
-
+        
+        
+        //let size = CGSize(width: self.view.frame.width/7, height: self.view.frame.width/10)
+        //cell.sizeThatFits(size)
+        
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("You selected cell #\(indexPath.item)!")
+        print(self.temp[indexPath.item])
 
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
     
-        if indexPath.item > startDay - 2 {
+        if indexPath.item > startDay - 1 {
             if cell?.backgroundColor == UIColor.red {
                 cell?.backgroundColor = UIColor.blue
+                 goToDateButton.isHidden = false
             } else {
                 for cell in collectionView.visibleCells as [UICollectionViewCell] {
                     cell.backgroundColor = UIColor.blue
@@ -153,17 +163,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func prepare(for segue: UIStoryboardSegue, sender:
         Any?) {
+        
         let formatter = DateFormatter()
+        formatter.locale = NSLocale(localeIdentifier: "en_US") as Locale
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
         let currentDate = "\(month!) \(highLightedCell!), \(currentYear)"
-        print(currentDate)
         newDate = formatter.date(from: currentDate)
-
-         
+        
+        print(newDate)
         
         super.prepare(for: segue, sender: sender)
-        //guard segue.identifier == "saveUnwind" else { return }
         
     }
+    
 }

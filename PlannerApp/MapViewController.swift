@@ -3,7 +3,7 @@
 //  PlannerApp
 //
 // Change map location
-//let camera = GMSCameraPosition.camera(withLatitude: place.coordinate.latitude, longitude: place.coordinate.longitude, zoom: 16.0
+//
 //  Created by Michael Berend on 14/06/2018.
 //  Copyright © 2018 Michael Berend. All rights reserved.
 //
@@ -62,12 +62,16 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
             for activity in sortedActivities {
                 locations.append(activity.coordinates)
             }
-            if locations.count > 0 {
+            if locations.count > 1 {
                 for index in 0...(locations.count - 2) {
                     drawPath(startLocation: locations[index], endLocation: locations[index + 1])
                     createMarker(titleMarker: sortedActivities[index].activity, iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: locations[index].coordinate.latitude, longitude: locations[index].coordinate.longitude)
                 }
+            }
+            if locations.count > 0 {
                 createMarker(titleMarker: (sortedActivities.last?.activity)!, iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: (locations.last?.coordinate.latitude)!, longitude: (locations.last?.coordinate.longitude)!)
+                let camera = GMSCameraPosition.camera(withLatitude: (locations.first?.coordinate.latitude)!, longitude: (locations.first?.coordinate.longitude)!, zoom: 10.0)
+                self.googleMaps?.animate(to: camera)
             }
         }
     }
@@ -171,4 +175,8 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
             }
         }
     }
+}
+
+public var screenWidth: CGFloat {
+    return UIScreen.main.bounds.width
 }

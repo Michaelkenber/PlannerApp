@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import GoogleMaps
+import GooglePlaces
 
 var addedActivities = [Activity]()
 var activity = [String]()
@@ -14,8 +16,10 @@ var time = [String]()
 var userData = false
 var dateDictionary: [String: [Activity]] = [:]
 var selectedDate = String()
+var selectedActivity: Activity!
+var startLocationDictionary: [String: CLLocation] = [:]
 
-class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GMSMapViewDelegate ,  CLLocationManagerDelegate {
 
     @IBOutlet weak var titlePlanner: UINavigationItem!
     
@@ -26,17 +30,33 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         return addedActivities.count
     }
     
+    var locationManager = CLLocationManager()
+    var locationSelected = Location.startLocation
+    var locationCoordinates = CLLocation()
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: nil)
         print(time)
         var sortedActivities = addedActivities.sorted(by: <)
-        cell.textLabel?.text = "\(sortedActivities[indexPath.row].activity) at \(sortedActivities[indexPath.row].timeString)"
+        cell.textLabel?.text = "\(sortedActivities[indexPath.row].activity) from \(sortedActivities[indexPath.row].timeString) to \(sortedActivities[indexPath.row].endTimeString)"
         
         return cell
     }
     
     override func viewDidAppear(_ animated: Bool) {
         selectedDate = titlePlanner.title!
+        if let _ = startLocationDictionary["\(selectedDate)"] {
+        } else {
+            let alertController = UIAlertController(title: "Start Location", message: "Please fill in the starting location for \(selectedDate)" , preferredStyle: .alert)
+            
+            
+            let ok = UIAlertAction(title: "Ok", style: .default) { (_) -> Void in
+                self.getStartLocation()
+            }
+            alertController.addAction(ok)
+            present(alertController, animated: true, completion: nil)
+        }
         tableView.reloadData()
     }
     
@@ -82,11 +102,11 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let optimize = UIAlertAction(title: "Yes", style: .default) { (_) -> Void in
             
-            self.performSegue(withIdentifier: "optimize", sender: self) 
+            self.performSegue(withIdentifier: "noOptimize", sender: self) 
         }
         let noOptimization = UIAlertAction(title: "No", style: .default) { (_) -> Void in
             
-            self.performSegue(withIdentifier: "noOptimize", sender: self)
+            self.performSegue(withIdentifier: "optimize", sender: self)
         }
         let declineAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
@@ -113,6 +133,21 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.reloadData()
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if addedActivities.count > 0 {
+            var sortedActivities = addedActivities.sorted(by: <)
+            selectedActivity = sortedActivities[indexPath.item]
+            self.performSegue(withIdentifier: "showActivity", sender: self)
+        }
+    }
+    
+    /*
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        <#code#>
+    }
+  */
+    
+    
     @IBAction func unwindToDate(segue: UIStoryboardSegue)
     {
 
@@ -120,6 +155,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
          let sourceViewController = segue.source as!
          ViewController
          if let newDate = sourceViewController.newDate {
+            print(newDate)
             let formatter = DateFormatter()
             formatter.dateStyle = .medium
             let currentDate = formatter.string(from: newDate)
@@ -134,6 +170,36 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
          }
         tableView.reloadData()
     }
+    
+    func getStartLocation() {
+        let autoCompleteController = GMSAutocompleteViewController()
+        autoCompleteController.delegate = self as GMSAutocompleteViewControllerDelegate
+        
+        
+        
+        // Change text color
+        UISearchBar.appearance().setTextColor(color: UIColor.black)
+        UISearchBar.appearance().setPlaceHolder(string: "Please give a starting location for \(selectedDate)")
+        self.locationManager.stopUpdatingLocation()
+        
+        self.present(autoCompleteController, animated: true, completion: nil)
+        startLocationDictionary["\(selectedDate)"] = locationCoordinates
+    }
 
 
+}
+
+extension PlannerViewController: GMSAutocompleteViewControllerDelegate {
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        locationCoordinates = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        print("Error \(error)")
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }

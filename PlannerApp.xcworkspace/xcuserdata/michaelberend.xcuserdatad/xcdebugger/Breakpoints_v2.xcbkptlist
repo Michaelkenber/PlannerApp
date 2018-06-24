@@ -10,13 +10,122 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PlannerApp/ViewController.swift"
-            timestampString = "551189046.069803"
+            timestampString = "551479341.032215"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "updateUI()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PlannerApp/ShowActivityTableViewController.swift"
+            timestampString = "551290641.086898"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PlannerApp/ShowActivityTableViewController.swift"
+            timestampString = "551290641.087352"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "ShowActivityTableViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PlannerApp.ShowActivityTableViewController.startTimeLabel.getter : weak Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UILabel&gt;"
+                  moduleName = "PlannerApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/michaelberend/Documents/GitHub/PlannerApp/PlannerApp/ShowActivityTableViewController.swift"
+                  timestampString = "551290534.802829"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "79">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PlannerApp.ShowActivityTableViewController.startTimeLabel.setter : weak Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UILabel&gt;"
+                  moduleName = "PlannerApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/michaelberend/Documents/GitHub/PlannerApp/PlannerApp/ShowActivityTableViewController.swift"
+                  timestampString = "551290534.809267"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "86">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PlannerApp.ShowActivityTableViewController.init(style: __C.UITableViewStyle) -&gt; PlannerApp.ShowActivityTableViewController"
+                  moduleName = "PlannerApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/michaelberend/Documents/GitHub/PlannerApp/PlannerApp/ShowActivityTableViewController.swift"
+                  timestampString = "551290534.813367"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "309">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PlannerApp.ShowActivityTableViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; PlannerApp.ShowActivityTableViewController"
+                  moduleName = "PlannerApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/michaelberend/Documents/GitHub/PlannerApp/PlannerApp/ShowActivityTableViewController.swift"
+                  timestampString = "551290534.8204581"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "361">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PlannerApp.ShowActivityTableViewController.init(coder: __ObjC.NSCoder) -&gt; Swift.Optional&lt;PlannerApp.ShowActivityTableViewController&gt;"
+                  moduleName = "PlannerApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/michaelberend/Documents/GitHub/PlannerApp/PlannerApp/ShowActivityTableViewController.swift"
+                  timestampString = "551290534.829101"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "274">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

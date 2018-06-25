@@ -22,3 +22,6 @@ Today i finally managed to link the calendar dates in the months section to the 
 
 ## 20 juni
 Emma told me today that google has a calendar API. I was dissappointed to learn this, because i have spent a lot of time working on my own calendar and getting it to work. I did learn a lot from it though. Today i managed to visualise the day in a map and the routes from activity to activity. I had some struggles because my app did work on my simulator on the computer, but it did not work on my phone. After a lot of print statements and google searches i realised that this was because my computer has its time settings in US style, while my phone has its settings in the UK style.
+
+## 21 
+Today i fixed that the app can't add two activities at the same time. I also started working on adding the traveling time and also a possible optimise function for it. I didn't succeed in completing it because the data was downloaded asynchronically. I also fixed minor buggs in the calendar. The function i used to calculate at which day each month started was wrong so i had to think of a new one. Because i couldn't find it online, i had to think of it myself, which turned out te be quit difficult. 

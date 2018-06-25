@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PlannerApp/ViewController.swift"
-            timestampString = "551479341.032215"
+            timestampString = "551626328.828158"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "updateUI()"
             landmarkType = "7">
          </BreakpointContent>

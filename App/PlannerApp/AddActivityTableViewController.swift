@@ -147,7 +147,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
             if self.calculateButton.isEnabled {
                 self.calculateButton.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
                 self.calculateButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                let addedActivity = Activity(activity: self.activityLabel.text!, time: self.timePicker.date, endTime: self.endTimePicker.date, location: self.location.text!, transport: self.transportTypeLabel.text!, timeString: self.timeStampe, endTimeString: self.timeStampe2, coordinates: self.locationCoordinates, travelTime: 0)
+                let addedActivity = Activity(activity: self.activityLabel.text!, time: self.timePicker.date, endTime: self.endTimePicker.date, location: self.location.text!, transport: self.transportTypeLabel.text!, timeString: self.timeStampe, endTimeString: self.timeStampe2, coordinates: self.locationCoordinates, travelTime: 0, type: "Activity")
                 var temp = true
                 for activity in addedActivities {
                     if (addedActivity.time >= activity.time && addedActivity.time <= activity.endTime) ||  (addedActivity.endTime >= activity.time && addedActivity.endTime <= activity.endTime) || ( addedActivity.time <= activity.time && addedActivity.endTime >= activity.endTime) {
@@ -167,35 +167,38 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
                 if temp == true {
                     addedActivities.append(addedActivity)
                     if addedActivities.count > 1 {
-                        self.calculateTravelTime(startLocation: addedActivities[addedActivities.count-2].coordinates, endLocation: addedActivities[addedActivities.count-1].coordinates, transportationMode: addedActivities[addedActivities.count-1].transport, completion: { time -> () in
-                            travelTime = travelTime
-                            })
+                        self.calculateTravelTime(startLocation: addedActivities[addedActivities.count-2].coordinates, endLocation: addedActivities[addedActivities.count-1].coordinates, transportationMode: addedActivities[addedActivities.count-1].transport)
+                            }
+                    if addedActivities.count == 1 {
+                        self.calculateTravelTime(startLocation: startLocationDictionary[selectedDate]!, endLocation: addedActivities[0].coordinates, transportationMode: addedActivities[0].transport)
+                    }
+                        /*
                         addedActivities[addedActivities.count-1].travelTime = travelTime
                         print("The travel time = \(travelTime)")
                         
                         let travelTimeStart = Calendar.current.date(byAdding: .second, value: -travelTime, to: (addedActivities.last?.time)!)
                         print(travelTimeStart!)
+ 
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateStyle = .none
                         dateFormatter.timeStyle = .short
                         let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-2].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[addedActivities.count-2].coordinates, travelTime: 0)
-                        let time = dateFormatter.string(from: travelTimeStart!)
+                        //let time = dateFormatter.string(from: travelTimeStart!)
                         print("The time is \(time)")
                         print(travelActivity.time)
                         print(travelActivity.timeString)
                         addedActivities.append(travelActivity)
-                    }
+                    */
                     
                     dateDictionary["\(selectedDate)"] = addedActivities
                 }
                 
-                //UserDefaults.standard.set(self.addedActivities, forKey: "theActivities")
+                
+                //UserDefaults.standard.set(startLocationDictionary, forKey: "theActivities")
+                //UserDefaults.standard.set(true, forKey: "userData")
             }
-            
-            
         }
     }
-    
     
     
     @IBAction func addActivity(_ sender: UITextField) {
@@ -263,7 +266,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         self.present(autoCompleteController, animated: true, completion: nil)
     }
     
-    func calculateTravelTime(startLocation: CLLocation, endLocation: CLLocation, transportationMode: String, completion: @escaping (Int) -> Void) -> Int {
+    func calculateTravelTime(startLocation: CLLocation, endLocation: CLLocation, transportationMode: String) {
         //Import JSON, import Swifty
         
         
@@ -280,12 +283,22 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
             let json = try JSON(data: response.data!)
             travelTime = json["rows"][0]["elements"][0]["duration"]["value"].intValue
             print(" The travel time is: \(travelTime)")
-            completion(travelTime)
+            let travelTimeStart = Calendar.current.date(byAdding: .second, value: -travelTime, to: (addedActivities.last?.time)!)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .none
+            dateFormatter.timeStyle = .short
+            if addedActivities.count > 1 {
+                let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-2].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[addedActivities.count-2].coordinates, travelTime: travelTime, type: "Travel")
+                addedActivities.append(travelActivity)
+            } else {
+                let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-1].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[0].coordinates, travelTime: travelTime, type: "Travel")
+                addedActivities.append(travelActivity)
+            }
+            
          } catch {
             print("Komt deze functie hier?")
             }
         }
-        return travelTime
     }
 }
 

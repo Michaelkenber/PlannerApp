@@ -10,7 +10,7 @@ import Foundation
 import GooglePlaces
 
 
-struct Activity {
+struct Activity: Equatable, Comparable {
     var activity: String
     var time: Date
     var endTime: Date
@@ -20,10 +20,21 @@ struct Activity {
     var endTimeString: String
     var coordinates: CLLocation
     var travelTime: Int
+    var type: String
     //var preferences: [String]
     
     static func < (lhs: Activity, rhs: Activity) -> Bool {
         return lhs.time < rhs.time
+    }
+    
+    static func ==(lhs: Activity, rhs: Activity) -> Bool {
+        return lhs.activity == rhs.activity && lhs.time ==
+            rhs.time && lhs.endTime == rhs.endTime &&
+            lhs.location == rhs.location && lhs.transport ==
+            rhs.transport && lhs.timeString == rhs.timeString &&
+            lhs.endTimeString == rhs.endTimeString && lhs.coordinates ==
+            rhs.coordinates && lhs.travelTime == rhs.travelTime &&
+            lhs.type == rhs.type
     }
 }
 

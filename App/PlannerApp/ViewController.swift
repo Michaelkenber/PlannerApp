@@ -20,9 +20,11 @@ var startMonth = 0
 var startYear = 0
 var highLightedCell: String!
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     let formatter = DateFormatter()
+    
+    let numberOfCellsPerRow: CGFloat = 6
 
     let reuseIdentifier = "cell"
     var items = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"]
@@ -53,9 +55,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         startMonth = Calendar.current.component(.month, from: Date()) - 1
         currentWeekDay = Calendar.current.component(.weekday, from: Date()) - 1
         currentDay = Calendar.current.component(.day, from: Date())
-        startDay = (7 + (currentWeekDay - currentDay%7))%7
+        startDay = (7 + startDay - (currentDay - 1)%7)%7
         print("Startday is: \(startDay)")
-        print(currentDay)
         print(currentWeekDay)
         print(startDay)
         print(currentMonth)
@@ -90,6 +91,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             currentYear -= 1
             currentMonth = 11
         }
+        startDay = (7 + startDay - daysPerMonth[currentMonth]%7)%7
         if (currentMonth == startMonth && currentYear == startYear) {
             leftButton.isEnabled = false
             leftButton.isHidden = true
@@ -100,7 +102,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func updateUI() {
         temp.removeAll()
-        if startDay - 1 > 0 {
+        if startDay > 0 {
             for _ in 1...startDay {
                 temp.append(" ")
             }
@@ -123,10 +125,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         cell.dateLabel.text = self.temp[indexPath.item]
         
+        
         cell.backgroundColor = UIColor.blue
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 8
+ 
         
         
         //let size = CGSize(width: self.view.frame.width/7, height: self.view.frame.width/10)
@@ -141,24 +145,29 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let screenWidth = UIScreen.main.bounds.width
+        let scaleFactor = (screenWidth / 8) - 6
+            
+        return CGSize(width: scaleFactor, height: scaleFactor)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
     
         if indexPath.item > startDay - 1 {
             if cell?.backgroundColor == UIColor.red {
                 cell?.backgroundColor = UIColor.blue
-                 goToDateButton.isHidden = false
+                goToDateButton.isHidden = true
             } else {
                 for cell in collectionView.visibleCells as [UICollectionViewCell] {
                     cell.backgroundColor = UIColor.blue
                 }
                 cell?.backgroundColor = UIColor.red
+                goToDateButton.isHidden = false
             }
         }
         highLightedCell = self.temp[indexPath.item]
-        if items.contains(highLightedCell) {
-            goToDateButton.isHidden = false
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender:

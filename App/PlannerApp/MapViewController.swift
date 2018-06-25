@@ -69,9 +69,14 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
                 }
             }
             if locations.count > 0 {
-                createMarker(titleMarker: (sortedActivities.last?.activity)!, iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: (locations.last?.coordinate.latitude)!, longitude: (locations.last?.coordinate.longitude)!)
+                let startLocation = startLocationDictionary[selectedDate]
+                createMarker(titleMarker: "Start location", iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: (startLocation?.coordinate.latitude)!, longitude: (startLocation?.coordinate.longitude)!)
                 let camera = GMSCameraPosition.camera(withLatitude: (locations.first?.coordinate.latitude)!, longitude: (locations.first?.coordinate.longitude)!, zoom: 10.0)
                 self.googleMaps?.animate(to: camera)
+                drawPath(startLocation: (startLocation)!, endLocation: locations[0])
+                if locations.count == 1 {
+                    createMarker(titleMarker: sortedActivities[0].activity, iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: locations[0].coordinate.latitude, longitude: locations[0].coordinate.longitude)
+                }
             }
         }
     }
@@ -90,29 +95,6 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error to get location : \(error)")
     }
-    
-    /*
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        let location = locations.last
-        
-        //        let camera = GMSCameraPosition.camera(withLatitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!, zoom: 17.0)
-        
-        let locationTujuan = CLLocation(latitude: 37.784023631590777, longitude: -122.40486681461333)
-        
-        createMarker(titleMarker: "Lokasi Tujuan", iconMarker: #imageLiteral(resourceName: "mapspin") , latitude: locationTujuan.coordinate.latitude, longitude: locationTujuan.coordinate.longitude)
-        
-        createMarker(titleMarker: "Lokasi Aku", iconMarker: #imageLiteral(resourceName: "mapspin") , latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!)
-        
-        drawPath(startLocation: location!, endLocation: locationTujuan)
-        
-        //        self.googleMaps?.animate(to: camera)
-        self.locationManager.stopUpdatingLocation()
-        
-    }
-    */
-    
-    // MARK: - GMSMapViewDelegate
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         googleMaps.isMyLocationEnabled = true

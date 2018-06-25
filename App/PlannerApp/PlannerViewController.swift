@@ -9,8 +9,11 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import Alamofire
+import SwiftyJSON
 
 var addedActivities = [Activity]()
+var sortedActivities = [Activity]()
 var activity = [String]()
 var time = [String]()
 var userData = false
@@ -18,6 +21,7 @@ var dateDictionary: [String: [Activity]] = [:]
 var selectedDate = String()
 var selectedActivity: Activity!
 var startLocationDictionary: [String: CLLocation] = [:]
+var travelTimes = [Int]()
 
 class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GMSMapViewDelegate ,  CLLocationManagerDelegate {
 
@@ -38,7 +42,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: nil)
         print(time)
-        var sortedActivities = addedActivities.sorted(by: <)
+        sortedActivities = addedActivities.sorted(by: <)
         cell.textLabel?.text = "\(sortedActivities[indexPath.row].activity) from \(sortedActivities[indexPath.row].timeString) to \(sortedActivities[indexPath.row].endTimeString)"
         
         return cell
@@ -69,25 +73,23 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         titlePlanner.title = currentDate
         selectedDate = currentDate
         
+        /*
+        
         userData = UserDefaults.standard.bool(forKey: "userData")
         
         if userData == true {
-            activity = UserDefaults.standard.object(forKey: "theActivity") as! [String]
-            time = UserDefaults.standard.object(forKey: "theTime") as! [String]
+            startLocationDictionary = UserDefaults.standard.object(forKey: "theActivity") as! [String: CLLocation]
         } else {
+            /*
             activity.append("NO USER DATA")
             UserDefaults.standard.set(activity, forKey: "theActivity")
             if activity[0] == "NO USER DATA" {
                 activity.remove(at: 0)
                 UserDefaults.standard.set(activity, forKey: "theActivity")
-            time.append("NO USER DATA")
-            UserDefaults.standard.set(time, forKey: "theTime")
-            if time[0] == "NO USER DATA" {
-                    time.remove(at: 0)
-                    UserDefaults.standard.set(time, forKey: "theTime")
-                }
             }
+            */
         }
+        */
         tableView.reloadData()
     }
 
@@ -97,16 +99,16 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func showAlert() {
         
-        let alertController = UIAlertController(title: "Add Activity", message: "Would you like to optimize for travel time?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Add activity", message: "Would you like to add an activity or change the starting location", preferredStyle: .alert)
         
         
-        let optimize = UIAlertAction(title: "Yes", style: .default) { (_) -> Void in
+        let optimize = UIAlertAction(title: "Add activity", style: .default) { (_) -> Void in
             
-            self.performSegue(withIdentifier: "noOptimize", sender: self) 
+            self.performSegue(withIdentifier: "optimize", sender: self) 
         }
-        let noOptimization = UIAlertAction(title: "No", style: .default) { (_) -> Void in
+        let noOptimization = UIAlertAction(title: "Change Start location", style: .default) { (_) -> Void in
             
-            self.performSegue(withIdentifier: "optimize", sender: self)
+            self.getStartLocation()
         }
         let declineAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
@@ -114,7 +116,6 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         alertController.addAction(noOptimization)
         alertController.addAction(declineAction)
 
-        
         present(alertController, animated: true, completion: nil)
     }
     
@@ -126,16 +127,16 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         editingStyle: UITableViewCellEditingStyle, forRowAt indexPath:
         IndexPath) {
         if editingStyle == .delete {
-            activity.remove(at: indexPath.row)
+            sortedActivities.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: . automatic)
-            UserDefaults.standard.set(activity, forKey: "theEvent")
+            //UserDefaults.standard.set(activity, forKey: "theEvent")
         }
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if addedActivities.count > 0 {
-            var sortedActivities = addedActivities.sorted(by: <)
+            sortedActivities = addedActivities.sorted(by: <)
             selectedActivity = sortedActivities[indexPath.item]
             self.performSegue(withIdentifier: "showActivity", sender: self)
         }
@@ -183,15 +184,95 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.locationManager.stopUpdatingLocation()
         
         self.present(autoCompleteController, animated: true, completion: nil)
-        startLocationDictionary["\(selectedDate)"] = locationCoordinates
     }
+    
+    
+    @IBAction func optimizeButton(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: "Travel Time Optimizer", message: "Would you like to optimize for travel time?", preferredStyle: .alert)
+        
+        
+        let optimize = UIAlertAction(title: "Yes", style: .default) { (_) -> Void in
+            let alertController2 = UIAlertController(title: "Transport", message: "What is the preferred mode of transport?", preferredStyle: .alert)
+            var transport = ""
+            
+            let driving = UIAlertAction(title: "driving", style: .default) { (_) -> Void in
+                transport = "driving"
+            }
+            let walking = UIAlertAction(title: "walking", style: .default) { (_) -> Void in
+                transport = "walking"
+            }
+            let bycicling = UIAlertAction(title: "bycicling", style: .default) { (_) -> Void in
+                transport = "bycicling"
+            }
+            let transit = UIAlertAction(title: "transit", style: .default) { (_) -> Void in
+                transport = "transit"
+            }
+            alertController2.addAction(driving)
+            alertController2.addAction(walking)
+            alertController2.addAction(bycicling)
+            alertController2.addAction(transit)
+            
+            for activity in addedActivities {
+                if activity.type == "Activity" {
+                    self.calculateTravelTime(startLocation: startLocationDictionary["\(selectedDate)"]!, endLocation: activity.coordinates, transportationMode: transport)
+                }
+            }
+            
+            for activity in addedActivities {
+                if activity.type == "Activity" {
+                    for activity2 in addedActivities {
+                        if activity.type == "Activity" && activity != activity2 {
+                            self.calculateTravelTime(startLocation: activity.coordinates, endLocation: activity2.coordinates, transportationMode: transport)
+                        }
+                    }
+                }
+            }
+            
+            
+            self.present(alertController2, animated: true, completion: nil)
+        }
 
+        let declineAction = UIAlertAction(title: "Never mind", style: .cancel, handler: nil)
+        
+        alertController.addAction(optimize)
+        alertController.addAction(declineAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func calculateTravelTime(startLocation: CLLocation, endLocation: CLLocation, transportationMode: String) {
+        //Import JSON, import Swifty
+        
+        
+        let origin = "\(startLocation.coordinate.latitude),\(startLocation.coordinate.longitude)"
+        let destination = "\(endLocation.coordinate.latitude),\(endLocation.coordinate.longitude)"
+        
+        let url2 = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destinations=\(destination)&mode=\(transportationMode)&key=AIzaSyDs9-PYsYSVlhHhZJFJ-jyLZ9azoyA1oSY"
+        
+        
+        Alamofire.request(url2).responseJSON { response in
+            
+            do {
+                
+                let json = try JSON(data: response.data!)
+                travelTime = json["rows"][0]["elements"][0]["duration"]["value"].intValue
+                travelTimes.append(travelTime)
+                print(travelTimes)
+                
 
+            } catch {
+                print("Komt deze functie hier?")
+            }
+        }
+    }
 }
+
 
 extension PlannerViewController: GMSAutocompleteViewControllerDelegate {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         locationCoordinates = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+        startLocationDictionary["\(selectedDate)"] = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+        titlePlanner.prompt = "Starting location: \(place.name)"
         self.dismiss(animated: true, completion: nil)
     }
     

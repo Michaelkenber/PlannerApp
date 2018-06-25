@@ -187,22 +187,6 @@
             </objects>
             <point key="canvasLocation" x="569" y="-114"/>
         </scene>
-        <!--Map-->
-        <scene sceneID="8Lv-OG-dhZ">
-            <objects>
-                <viewController id="y7a-lR-Hwg" customClass="MapsViewController" customModule="PlannerApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="hOB-7g-usX" customClass="GMSMapView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="ec0-91-PUY"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Map" id="XKQ-mD-ETN"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nLm-dr-xhv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1817" y="758"/>
-        </scene>
         <!--Test-->
         <scene sceneID="XE0-1S-AxK">
             <objects>
@@ -268,7 +252,11 @@
                         <viewLayoutGuide key="safeArea" id="KrM-Pb-uAP"/>
                     </view>
                     <navigationItem key="navigationItem" title="Calendar" id="Rg3-Qa-Z2d">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="kre-4k-1mL"/>
+                        <barButtonItem key="leftBarButtonItem" title="Optimize" id="kre-4k-1mL">
+                            <connections>
+                                <action selector="optimizeButton:" destination="M66-Ot-4pa" id="hhg-5R-3uo"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="aSJ-dN-gdJ">
                             <connections>
                                 <action selector="showAlert" destination="M66-Ot-4pa" id="kIl-1d-mk1"/>
@@ -278,7 +266,6 @@
                     <connections>
                         <outlet property="tableView" destination="Sub-ZT-jJs" id="jKR-LE-3ho"/>
                         <outlet property="titlePlanner" destination="Rg3-Qa-Z2d" id="i2b-Or-Z03"/>
-                        <segue destination="DTz-yz-z4S" kind="show" identifier="noOptimize" id="dO0-Eg-EZO"/>
                         <segue destination="2LM-SF-bYU" kind="show" identifier="optimize" id="IhT-Dw-Wnn"/>
                         <segue destination="50R-5W-Gct" kind="show" identifier="showActivity" id="D6r-Iu-7k2"/>
                     </connections>
@@ -550,43 +537,6 @@
             </objects>
             <point key="canvasLocation" x="-1303" y="707"/>
         </scene>
-        <!--Add Activity-->
-        <scene sceneID="7tI-Pk-nI5">
-            <objects>
-                <viewController id="DTz-yz-z4S" customClass="AddActivityViewController" customModule="PlannerApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="plP-q1-Bff">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xY3-ri-aXL">
-                                <rect key="frame" x="0.0" y="523" width="375" height="95"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="95" id="3p4-xM-ovb"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
-                                <state key="normal" title="Calculate best planning">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="kKp-59-ojf" kind="show" id="9hc-mG-ws9"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="xY3-ri-aXL" firstAttribute="trailing" secondItem="6ls-t7-3bA" secondAttribute="trailing" id="3sa-lw-j5E"/>
-                            <constraint firstItem="xY3-ri-aXL" firstAttribute="leading" secondItem="6ls-t7-3bA" secondAttribute="leading" id="KlD-0Q-9dw"/>
-                            <constraint firstItem="xY3-ri-aXL" firstAttribute="bottom" secondItem="6ls-t7-3bA" secondAttribute="bottom" id="P2S-E7-tGp"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="6ls-t7-3bA"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Add Activity" id="tkN-Qf-P7Z"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="icy-5n-dM0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-481" y="707"/>
-        </scene>
         <!--Show Activity Table View Controller-->
         <scene sceneID="tQ6-Xa-9hG">
             <objects>
@@ -815,7 +765,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t3h-V3-1v3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1121" y="-1222"/>
+            <point key="canvasLocation" x="-482" y="707"/>
         </scene>
         <!--Select Transport Type Table View Controller-->
         <scene sceneID="hYy-yE-crV">
@@ -854,59 +804,6 @@
             </objects>
             <point key="canvasLocation" x="-1303" y="1531"/>
         </scene>
-        <!--Proposed TImetable-->
-        <scene sceneID="8Pb-Cg-rU4">
-            <objects>
-                <viewController id="kKp-59-ojf" customClass="ProposedTimetableViewController" customModule="PlannerApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Blo-fz-YEJ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="XeA-zy-PMS">
-                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FSr-Rq-XAA">
-                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="50"/>
-                                        <state key="normal" title="Keep"/>
-                                        <connections>
-                                            <segue destination="OD4-jr-CY2" kind="unwind" unwindAction="unwindToPLannerWithUnwindSegue:" id="DiL-9Q-D55"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Frb-BS-Yz6">
-                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="50"/>
-                                        <state key="normal" title="Next option"/>
-                                        <connections>
-                                            <segue destination="qx9-hO-jsq" kind="show" id="7rK-UA-482"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="sW2-LI-Q1y"/>
-                                </constraints>
-                            </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="Sad-6H-W7p">
-                                <rect key="frame" x="0.0" y="114" width="375" height="504"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="XeA-zy-PMS" firstAttribute="leading" secondItem="Wub-o4-6Sd" secondAttribute="leading" id="Bmf-sB-6AQ"/>
-                            <constraint firstItem="Wub-o4-6Sd" firstAttribute="trailing" secondItem="Sad-6H-W7p" secondAttribute="trailing" id="IXI-r6-FUN"/>
-                            <constraint firstItem="Sad-6H-W7p" firstAttribute="top" secondItem="XeA-zy-PMS" secondAttribute="bottom" id="P4F-Vo-8N3"/>
-                            <constraint firstItem="Sad-6H-W7p" firstAttribute="leading" secondItem="Wub-o4-6Sd" secondAttribute="leading" id="fEP-ZJ-gbJ"/>
-                            <constraint firstItem="Wub-o4-6Sd" firstAttribute="bottom" secondItem="Sad-6H-W7p" secondAttribute="bottom" id="kRx-hh-b4z"/>
-                            <constraint firstItem="XeA-zy-PMS" firstAttribute="top" secondItem="Wub-o4-6Sd" secondAttribute="top" id="nSy-WV-T9W"/>
-                            <constraint firstItem="Wub-o4-6Sd" firstAttribute="trailing" secondItem="XeA-zy-PMS" secondAttribute="trailing" id="q4I-3b-5l5"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Wub-o4-6Sd"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Proposed TImetable" id="g3q-CC-jKu"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HsG-rt-3ud" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="OD4-jr-CY2" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="-481" y="1461"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ifT-UK-dPH">
             <objects>
@@ -943,61 +840,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="apd-PD-mRe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1303" y="-53"/>
-        </scene>
-        <!--Proposed TImetable-->
-        <scene sceneID="3QW-cB-3at">
-            <objects>
-                <viewController id="qx9-hO-jsq" customClass="ProposedTimetableViewController" customModule="PlannerApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="DeT-iu-N3u">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5cz-PH-UQB">
-                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJR-Vz-aae">
-                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="50"/>
-                                        <state key="normal" title="Keep"/>
-                                        <connections>
-                                            <segue destination="R1b-2q-SOD" kind="unwind" unwindAction="unwindToPLannerWithUnwindSegue:" id="YVv-Gd-uE9"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UAd-jp-Kif">
-                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="50"/>
-                                        <state key="normal" title="Next option"/>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="y84-d1-jva"/>
-                                </constraints>
-                            </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Proposal" translatesAutoresizingMaskIntoConstraints="NO" id="jye-r7-KHk">
-                                <rect key="frame" x="0.0" y="114" width="375" height="504"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="5cz-PH-UQB" firstAttribute="top" secondItem="VaA-kt-acI" secondAttribute="top" id="9rZ-KJ-fin"/>
-                            <constraint firstItem="jye-r7-KHk" firstAttribute="top" secondItem="5cz-PH-UQB" secondAttribute="bottom" id="BnP-W7-yE4"/>
-                            <constraint firstItem="jye-r7-KHk" firstAttribute="leading" secondItem="VaA-kt-acI" secondAttribute="leading" id="NVK-ZG-3rA"/>
-                            <constraint firstItem="VaA-kt-acI" firstAttribute="bottom" secondItem="jye-r7-KHk" secondAttribute="bottom" id="UnB-04-v3o"/>
-                            <constraint firstItem="VaA-kt-acI" firstAttribute="trailing" secondItem="5cz-PH-UQB" secondAttribute="trailing" id="o2L-Po-laG"/>
-                            <constraint firstItem="5cz-PH-UQB" firstAttribute="leading" secondItem="VaA-kt-acI" secondAttribute="leading" id="o4M-hd-M8b"/>
-                            <constraint firstItem="VaA-kt-acI" firstAttribute="trailing" secondItem="jye-r7-KHk" secondAttribute="trailing" id="qKN-oY-Ovt"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="VaA-kt-acI"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Proposed TImetable" id="t9e-1h-e61"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ck5-mX-oCA" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="R1b-2q-SOD" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="-481" y="2185"/>
+            <point key="canvasLocation" x="-1418" y="-114"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Background" width="241" height="320"/>
-        <image name="Proposal" width="319" height="429"/>
-    </resources>
 </document>

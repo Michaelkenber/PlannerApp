@@ -26,5 +26,5 @@ Emma told me today that google has a calendar API. I was dissappointed to learn 
 ## 21 juni
 Today i fixed that the app can't add two activities at the same time. I also started working on adding the traveling time and also a possible optimise function for it. I didn't succeed in completing it because the data was downloaded asynchronically. I also fixed minor buggs in the calendar. The function i used to calculate at which day each month started was wrong so i had to think of a new one. Because i couldn't find it online, i had to think of it myself, which turned out te be quit difficult. I also noticed that my calendar had 6 cells per each day, instead of 7. I also struggled to fixed this, because the functions that i found that were supposed to return 7 cells, only returned six. I changed the function to 8 cells, and now it returns 7.
 
-## 22 juni
+## 25 juni
 The calendar now adds travel time for each activity. I have also tried making an optimisation function, but it crashes the program as of now. The user now has to add a starting point for each day and is able to change this if he chooses. Furthermore, i have tidied up my repository and have put my app in its own folder.

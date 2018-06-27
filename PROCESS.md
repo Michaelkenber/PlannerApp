@@ -28,3 +28,6 @@ Today i fixed that the app can't add two activities at the same time. I also sta
 
 ## 25 juni
 The calendar now adds travel time for each activity. I have also tried making an optimisation function, but it crashes the program as of now. The user now has to add a starting point for each day and is able to change this if he chooses. Furthermore, i have tidied up my repository and have put my app in its own folder.
+
+## 26 juni
+Today i focussed on some bugs the calendar had and fixed most of them. I also started with commenting each function in the code, i know i should learn to do this while coding and not after, but up till now i have always prioritised the code above the commenting. I tried to save my dictionary in userdefaults, but this didn't work because it is not a NSObject. After a lot of internet searching, i have sadly not managed to fix the problem. I am hoping that tommorow i can solve the problem with the help of one of the TA's.

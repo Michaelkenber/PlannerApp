@@ -252,7 +252,7 @@
                         <viewLayoutGuide key="safeArea" id="KrM-Pb-uAP"/>
                     </view>
                     <navigationItem key="navigationItem" title="Calendar" id="Rg3-Qa-Z2d">
-                        <barButtonItem key="leftBarButtonItem" title="Optimize" id="kre-4k-1mL">
+                        <barButtonItem key="leftBarButtonItem" title="Change start" id="kre-4k-1mL">
                             <connections>
                                 <action selector="optimizeButton:" destination="M66-Ot-4pa" id="hhg-5R-3uo"/>
                             </connections>
@@ -614,41 +614,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Evp-mL-xQ1">
-                                        <rect key="frame" x="0.0" y="123" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Evp-mL-xQ1" id="Jve-wB-Zy2">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="VlT-cZ-kPM">
-                                                    <rect key="frame" x="16" y="11" width="343" height="22"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Travel Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mj7-Wu-n2G">
-                                                            <rect key="frame" x="0.0" y="0.0" width="171.5" height="22"/>
-                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yqd-OZ-e2L">
-                                                            <rect key="frame" x="171.5" y="0.0" width="171.5" height="22"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="VlT-cZ-kPM" secondAttribute="trailing" id="BCb-10-whq"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="VlT-cZ-kPM" secondAttribute="bottom" id="cYX-If-Bso"/>
-                                                <constraint firstItem="VlT-cZ-kPM" firstAttribute="leading" secondItem="Jve-wB-Zy2" secondAttribute="leadingMargin" id="hsJ-QP-a7W"/>
-                                                <constraint firstItem="VlT-cZ-kPM" firstAttribute="top" secondItem="Jve-wB-Zy2" secondAttribute="topMargin" id="qma-3j-mQ4"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="70I-p0-nPX">
-                                        <rect key="frame" x="0.0" y="167" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="123" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="70I-p0-nPX" id="z0N-AT-kBH">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -681,7 +648,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="8lM-FH-UOr">
-                                        <rect key="frame" x="0.0" y="211" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="167" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8lM-FH-UOr" id="tLv-fz-wqg">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -714,7 +681,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="6nU-K3-2RU">
-                                        <rect key="frame" x="0.0" y="255" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="211" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6nU-K3-2RU" id="J8R-FP-Y9C">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -755,12 +722,12 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="TravelActivityLabel" destination="kXe-VI-CzU" id="8Zg-8g-D3N"/>
                         <outlet property="activityLabel" destination="19r-BY-2NA" id="IRX-Ai-p4H"/>
                         <outlet property="durationLabel" destination="BVc-N7-YKB" id="Id5-pV-BUL"/>
                         <outlet property="endTimeLabel" destination="v84-MN-J7N" id="OAo-Oy-hwG"/>
                         <outlet property="locationLabel" destination="pDi-A4-JJU" id="YdU-Ew-c33"/>
                         <outlet property="startTimeLabel" destination="cOQ-Kw-Pex" id="N2T-b5-BUu"/>
-                        <outlet property="travelTime" destination="Yqd-OZ-e2L" id="hCD-NF-zxG"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t3h-V3-1v3" userLabel="First Responder" sceneMemberID="firstResponder"/>

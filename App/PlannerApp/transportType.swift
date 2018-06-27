@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// This is a struct for the transport type that confirms to the equatable protocol
 struct TransportType: Equatable {
     var id: Int
     var name: String

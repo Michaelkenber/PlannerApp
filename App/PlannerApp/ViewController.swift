@@ -5,6 +5,7 @@
 //  Created by Michael Berend on 04/06/2018.
 //  Code inspired by: https://stackoverflow.com/questions/31735228/how-to-make-a-simple-collection-view-with-swift
 //
+//  This is the viewcontroller that represenths the months of the year as a calendar
 
 import UIKit
 import Foundation
@@ -68,7 +69,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         updateUI()
 
     }
-    
+    /// Go to net month when right button is pressed
     @IBAction func rightButtonPressed(_ sender: UIButton) {
         startDay = (startDay + daysPerMonth[currentMonth]%7)%7
         print("Startday is: \(startDay)")
@@ -85,13 +86,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
     }
     
+    /// Go to prior month when left button is pressed
     @IBAction func leftButtonPressed(_ sender: UIButton) {
         currentMonth -= 1
         if currentMonth < 0 {
             currentYear -= 1
             currentMonth = 11
         }
+        // calculate the starting day of the new month
         startDay = (7 + startDay - daysPerMonth[currentMonth]%7)%7
+        
+        // If on current month, don't allow user to go back
         if (currentMonth == startMonth && currentYear == startYear) {
             leftButton.isEnabled = false
             leftButton.isHidden = true
@@ -100,13 +105,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         updateUI()
     }
     
+    /// Updtes the collection view for chosen month
     func updateUI() {
         temp.removeAll()
+        
+        // show empty boxes until the starting day
         if startDay > 0 {
             for _ in 1...startDay {
                 temp.append(" ")
             }
         }
+        
+        // retrieve array representing the dates
         for index in 1...daysPerMonth[currentMonth] {
             temp.append("\(index)")
         }
@@ -115,16 +125,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         collectionVIew.reloadData()
     }
     
+    /// give the amount of cells in collectionview as days in the current month + the empty boxes until starting day
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.temp.count
     }
     
+    /// Update the colletion view
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! CollectionViewCell
         
+        // give each cell an apropriate label
         cell.dateLabel.text = self.temp[indexPath.item]
-        
         
         cell.backgroundColor = UIColor.blue
         cell.layer.borderColor = UIColor.black.cgColor
@@ -132,19 +144,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.layer.cornerRadius = 8
  
         
-        
-        //let size = CGSize(width: self.view.frame.width/7, height: self.view.frame.width/10)
-        //cell.sizeThatFits(size)
-        
         return cell
     }
     
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(self.temp[indexPath.item])
-
-    }
-    
+    /// update the size of each cell, so that 7 cells fit the screen
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = UIScreen.main.bounds.width
         let scaleFactor = (screenWidth / 8) - 6
@@ -152,24 +155,31 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return CGSize(width: scaleFactor, height: scaleFactor)
     }
     
+    
+    /// Highligth a cell when selected
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
     
+        // if selected cell is a date highlight red, if already highlighted make blue again
         if indexPath.item > startDay - 1 {
             if cell?.backgroundColor == UIColor.red {
                 cell?.backgroundColor = UIColor.blue
+                // show the go to date button when date is selected
                 goToDateButton.isHidden = true
             } else {
                 for cell in collectionView.visibleCells as [UICollectionViewCell] {
                     cell.backgroundColor = UIColor.blue
                 }
                 cell?.backgroundColor = UIColor.red
+                // if no cell highlighted, hide go to date button
                 goToDateButton.isHidden = false
             }
         }
+        // determine highlighted cell
         highLightedCell = self.temp[indexPath.item]
     }
     
+    /// prepare for segue to planner
     override func prepare(for segue: UIStoryboardSegue, sender:
         Any?) {
         

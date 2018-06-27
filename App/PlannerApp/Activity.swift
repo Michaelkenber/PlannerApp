@@ -22,6 +22,9 @@ struct Activity: Equatable, Comparable {
     var travelTime: Int
     var type: String
     //var preferences: [String]
+
+    //Inspired by: https://medium.com/if-let-swift-programming/migrating-to-codable-from-nscoding-ddc2585f28a4
+
     
     static func < (lhs: Activity, rhs: Activity) -> Bool {
         return lhs.time < rhs.time

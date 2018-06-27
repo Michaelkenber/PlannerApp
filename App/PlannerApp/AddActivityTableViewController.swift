@@ -5,6 +5,7 @@
 //  Created by Michael Berend on 11/06/2018.
 //  Copyright © 2018 Michael Berend. All rights reserved.
 //
+// This is the viewcontroller where a user can add an activity
 
 import UIKit
 import GoogleMaps
@@ -50,12 +51,14 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
     let timePickerCellIndexPath = IndexPath(row: 1, section: 1)
     let endTimePickerCellIndexPath = IndexPath(row: 3, section: 1)
 
+    // determine a bool variable wether the timepicker for the starttime is shown
     var timePickerShown: Bool = false {
         didSet {
             timePicker.isHidden = !timePickerShown
         }
     }
     
+    // determine a bool variable wether the timepicker for the endtime is shown
     var endTimePickerShown: Bool = false {
         didSet {
             endTimePicker.isHidden = !endTimePickerShown
@@ -69,24 +72,25 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         endTimePicker.minimumDate = today
         timePicker.date = today
         endTimePicker.date = today
-        //timePicker.datePickerMode = UIDatePickerMode.time
         calculateButton.isEnabled = false
         calculateButton.isUserInteractionEnabled = false
         calculateButton.alpha = 0.5
         updateViews()
     }
     
+    /// determine the transporttype that the user selected
     func didSelect(transportType: TransportType) {
         self.transportType = transportType
         updateTransportType()
     }
     
-    
+    /// update label if timepicker is changed
     @IBAction func timePickerValueChanged(_ sender: UIDatePicker) {
         updateViews()
         updateTransportType()
     }
     
+    /// if user time pickershwon is true, the timepicker will increase in size from 0 to 216
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.section, indexPath.row) {
         case (timePickerCellIndexPath.section, timePickerCellIndexPath.row):
@@ -106,6 +110,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         }
     }
     
+    /// if time is selected, show time picker and hide the other time picker
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
@@ -141,7 +146,8 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
             break
         }
     }
-
+    
+    /// add activity when button is pressed
     @IBAction func calculateButtonPressed(_ sender: UIButton) {
         UIView.animate(withDuration: 0.2) {
             if self.calculateButton.isEnabled {
@@ -149,6 +155,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
                 self.calculateButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 let addedActivity = Activity(activity: self.activityLabel.text!, time: self.timePicker.date, endTime: self.endTimePicker.date, location: self.location.text!, transport: self.transportTypeLabel.text!, timeString: self.timeStampe, endTimeString: self.timeStampe2, coordinates: self.locationCoordinates, travelTime: 0, type: "Activity")
                 var temp = true
+                // check if timeslot is available for the activity
                 for activity in addedActivities {
                     if (addedActivity.time >= activity.time && addedActivity.time <= activity.endTime) ||  (addedActivity.endTime >= activity.time && addedActivity.endTime <= activity.endTime) || ( addedActivity.time <= activity.time && addedActivity.endTime >= activity.endTime) {
                         temp = false
@@ -164,6 +171,8 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
                         
                     }
                 }
+                
+                // if time slot is available, add activity and traveltime
                 if temp == true {
                     addedActivities.append(addedActivity)
                     if addedActivities.count > 1 {
@@ -172,35 +181,16 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
                     if addedActivities.count == 1 {
                         self.calculateTravelTime(startLocation: startLocationDictionary[selectedDate]!, endLocation: addedActivities[0].coordinates, transportationMode: addedActivities[0].transport)
                     }
-                        /*
-                        addedActivities[addedActivities.count-1].travelTime = travelTime
-                        print("The travel time = \(travelTime)")
-                        
-                        let travelTimeStart = Calendar.current.date(byAdding: .second, value: -travelTime, to: (addedActivities.last?.time)!)
-                        print(travelTimeStart!)
- 
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateStyle = .none
-                        dateFormatter.timeStyle = .short
-                        let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-2].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[addedActivities.count-2].coordinates, travelTime: 0)
-                        //let time = dateFormatter.string(from: travelTimeStart!)
-                        print("The time is \(time)")
-                        print(travelActivity.time)
-                        print(travelActivity.timeString)
-                        addedActivities.append(travelActivity)
-                    */
-                    
+
+    
                     dateDictionary["\(selectedDate)"] = addedActivities
                 }
-                
-                
-                //UserDefaults.standard.set(startLocationDictionary, forKey: "theActivities")
-                //UserDefaults.standard.set(true, forKey: "userData")
             }
         }
     }
     
     
+    /// allow users to fill in an activity in the textfield
     @IBAction func addActivity(_ sender: UITextField) {
         userData = true
         activity.append(activityLabel.text!)
@@ -210,6 +200,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         showButton()
     }
     
+    /// update the viewcontroller
     func updateViews() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .none
@@ -225,6 +216,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         timeLabel.text = timeStampe
     }
     
+    ///
     func updateTransportType() {
         if let transportType = transportType {
             transportTypeLabel.text = transportType.name
@@ -287,12 +279,14 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .none
             dateFormatter.timeStyle = .short
-            if addedActivities.count > 1 {
-                let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-2].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[addedActivities.count-2].coordinates, travelTime: travelTime, type: "Travel")
-                addedActivities.append(travelActivity)
-            } else {
-                let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-1].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[0].coordinates, travelTime: travelTime, type: "Travel")
-                addedActivities.append(travelActivity)
+            if travelTime != 0 {
+                if addedActivities.count > 1 {
+                    let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-2].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[addedActivities.count-2].coordinates, travelTime: travelTime, type: "Travel")
+                    addedActivities.append(travelActivity)
+                } else {
+                    let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-1].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[0].coordinates, travelTime: travelTime, type: "Travel")
+                    addedActivities.append(travelActivity)
+                }
             }
             
          } catch {

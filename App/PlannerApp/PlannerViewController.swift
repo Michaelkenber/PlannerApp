@@ -99,21 +99,17 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func showAlert() {
         
-        let alertController = UIAlertController(title: "Add activity", message: "Would you like to add an activity or change the starting location", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Add activity", message: "Would you like to add an activity?", preferredStyle: .alert)
         
         
-        let optimize = UIAlertAction(title: "Add activity", style: .default) { (_) -> Void in
+        let optimize = UIAlertAction(title: "Yes", style: .default) { (_) -> Void in
             
             self.performSegue(withIdentifier: "optimize", sender: self) 
         }
-        let noOptimization = UIAlertAction(title: "Change Start location", style: .default) { (_) -> Void in
-            
-            self.getStartLocation()
-        }
+
         let declineAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(optimize)
-        alertController.addAction(noOptimization)
         alertController.addAction(declineAction)
 
         present(alertController, animated: true, completion: nil)
@@ -141,13 +137,6 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.performSegue(withIdentifier: "showActivity", sender: self)
         }
     }
-    
-    /*
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        <#code#>
-    }
-  */
-    
     
     @IBAction func unwindToDate(segue: UIStoryboardSegue)
     {
@@ -188,54 +177,18 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
     @IBAction func optimizeButton(_ sender: UIBarButtonItem) {
-        let alertController = UIAlertController(title: "Travel Time Optimizer", message: "Would you like to optimize for travel time?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Change start location", message: "Would you like to change the start location?", preferredStyle: .alert)
         
-        
-        let optimize = UIAlertAction(title: "Yes", style: .default) { (_) -> Void in
-            let alertController2 = UIAlertController(title: "Transport", message: "What is the preferred mode of transport?", preferredStyle: .alert)
-            var transport = ""
+        let startLocation = UIAlertAction(title: "Change Start location", style: .default) { (_) -> Void in
             
-            let driving = UIAlertAction(title: "driving", style: .default) { (_) -> Void in
-                transport = "driving"
-            }
-            let walking = UIAlertAction(title: "walking", style: .default) { (_) -> Void in
-                transport = "walking"
-            }
-            let bycicling = UIAlertAction(title: "bycicling", style: .default) { (_) -> Void in
-                transport = "bycicling"
-            }
-            let transit = UIAlertAction(title: "transit", style: .default) { (_) -> Void in
-                transport = "transit"
-            }
-            alertController2.addAction(driving)
-            alertController2.addAction(walking)
-            alertController2.addAction(bycicling)
-            alertController2.addAction(transit)
-            
-            for activity in addedActivities {
-                if activity.type == "Activity" {
-                    self.calculateTravelTime(startLocation: startLocationDictionary["\(selectedDate)"]!, endLocation: activity.coordinates, transportationMode: transport)
-                }
-            }
-            
-            for activity in addedActivities {
-                if activity.type == "Activity" {
-                    for activity2 in addedActivities {
-                        if activity.type == "Activity" && activity != activity2 {
-                            self.calculateTravelTime(startLocation: activity.coordinates, endLocation: activity2.coordinates, transportationMode: transport)
-                        }
-                    }
-                }
-            }
-            
-            
-            self.present(alertController2, animated: true, completion: nil)
+            self.getStartLocation()
         }
 
         let declineAction = UIAlertAction(title: "Never mind", style: .cancel, handler: nil)
         
-        alertController.addAction(optimize)
+
         alertController.addAction(declineAction)
+        alertController.addAction(startLocation)
         
         present(alertController, animated: true, completion: nil)
     }

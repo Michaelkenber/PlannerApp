@@ -2,6 +2,17 @@
 The planner app is a calendar app, that automatically adds the users travel time, given the mode of transport provided by the user.
 The app visualises the user's daily route on a map.
 
+# Design
+In the picture below we see the top level of the app represented by the PlannerController, CalendarViewController and the MapviewController. The PlannerController holds the planning of daily activities. The CalendarViewController holds the months of the year
+and the ability for users to select certain dates. The MapviewController visualises the daily activities of the user on a map.
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/ViewControllers.png)
+
+From the PlannerViewController, users can go to the ShowActivityViewController and to the AddActivityViewController. The ShowActivityViewController shows the details of an activity. The AddActivityViewController allows users to add an activity.
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/PlannerRelation.png)
+
+From here we have one final ViewController, the SelectTransportTypeViewController. Here a user can select a transport type.
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/AddActivityRelation.png)
+
 # Challenges
 To my opinion this project really challenged me. The app planning at the start of the project is a good way to have a clear picture
 of something you want to work too, hower i did notice my dissapointment when a wasn't able to reach this picture i had.

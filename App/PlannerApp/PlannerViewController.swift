@@ -130,6 +130,11 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         let deleteAll = UIAlertAction(title: "Delete all activities", style: .default) { (_) -> Void in
             addedActivities = []
             dateDictionary[selectedDate] = addedActivities
+            
+            let propertyListEncoder = PropertyListEncoder()
+            let encodedCoordinate = try? propertyListEncoder.encode(dateDictionary)
+            
+            try? encodedCoordinate?.write(to: archiveURL, options: .noFileProtection)
             self.tableView.reloadData()
             
         }

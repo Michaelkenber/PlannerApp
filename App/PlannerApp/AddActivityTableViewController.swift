@@ -233,11 +233,11 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         timeStampe = dateFormatter.string(from: timePicker.date)
         timeStampe2 = dateFormatter.string(from: endTimePicker.date)
         if endTimePicker.date < timePicker.date {
-            endTimePicker.minimumDate = timePicker.date
             endTimeLabel.text = timeStampe
         } else {
             endTimeLabel.text = timeStampe2
         }
+        endTimePicker.minimumDate = timePicker.date
         timeLabel.text = timeStampe
     }
     

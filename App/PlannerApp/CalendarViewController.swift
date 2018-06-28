@@ -1,11 +1,11 @@
 //
-//  ViewController.swift
+//  CalendarViewController.swift
 //  PlannerApp
 //
 //  Created by Michael Berend on 04/06/2018.
-//  Code inspired by: https://stackoverflow.com/questions/31735228/how-to-make-a-simple-collection-view-with-swift
 //
-//  This is the viewcontroller that represenths the months of the year as a calendar
+//
+//  This is the viewcontroller that represenths the months of the year as a calendar in am UIView.
 
 import UIKit
 import Foundation

@@ -7,7 +7,7 @@
 //  Created by Michael Berend on 14/06/2018.
 //  Copyright © 2018 Michael Berend. All rights reserved.
 //
-//  This is the viewcontroller that represents the map with the daily activities and route
+//  This is the viewcontroller that represents the map with the daily activities and the corresponding route as a polyline.
 
 import UIKit
 import GoogleMaps
@@ -133,6 +133,8 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
     /// draw a path between two given locations
     func drawPath(startLocation: Coordinate, endLocation: Coordinate, transport: String)
     {
+        //  Code created in part by https://stackoverflow.com/questions/22550849/drawing-route-between-two-places-on-gmsmapview-in-ios/35045733
+        
         // define start and end
         let origin = "\(startLocation.latitude),\(startLocation.longitude)"
         let destination = "\(endLocation.latitude),\(endLocation.longitude)"

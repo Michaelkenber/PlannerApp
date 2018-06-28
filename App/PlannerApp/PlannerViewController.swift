@@ -182,8 +182,6 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         let autoCompleteController = GMSAutocompleteViewController()
         autoCompleteController.delegate = self as GMSAutocompleteViewControllerDelegate
         
-        
-        
         // Change text color
         UISearchBar.appearance().setTextColor(color: UIColor.black)
         UISearchBar.appearance().setPlaceHolder(string: "Please give a starting location for \(selectedDate)")

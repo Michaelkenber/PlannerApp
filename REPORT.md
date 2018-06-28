@@ -38,6 +38,50 @@ Last, but not least, the user can view his entire day in the MapViewController. 
 
 ![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/MapScreen.png)
 
+# Classes and Functions
+## PlannerViewController.swift
+This viewcontroller displays the daily activities of the user chronologically in a tableview. 
+In the a dictionary is defined with a string representing a date as key, and an array of activities of values. This representation is important because it determines most of the data structure.
+
+All the functions within this viewController concern themselves with user interaction and representing the tableview.
+
+## CalendarViewController.swift
+This is a custom UIViewController class. It contains functions relating to users operating with the calendar. 
+
+It has a button right and a button left function, for when the right and the left button are pressed. 
+
+It has an updateUI function that tells the Collectionview how to fill itself for a new month. The updateUI function
+calls upon CollectionView.reloadtable data which calls all the other collectionview functions within the class telling how
+the collection function must be initialized and how it should act when interacted with.
+
+## MapViewController.swift
+This is a custom UIViewController class that represents the map.
+
+Its most important functions drawPath and createMarkers, which draws a path between two activities and creates markers for each of these 
+activities, which the name already suggests.
+
+The other functions within this class tell the viewcontroller how to display the map, and how to act when interacted with.
+
+## AddActivityTableViewController.swift
+This is the table view controller class where users can add an activity. Most of the functions concern themselves with updating the labels.
+
+The most important function within this class is the function calculate traveltime. This function calculates the traveltime betweentwo activities.
+
+## CollectionViewCell.swift
+This class is a custom UICollectionView class. It contains only an outlet to the label of the collectionviewcell within the collectionview.
+
+## TransportType.swift
+This is a struct for the transport type that confirms to the equatable protocol.
+
+## SelectTransportTypeViewController.swift
+This is the viewcontroller where a user can select the transport type. It contains only tableview functions.
+
+## Activity.swift
+This struct is a struct that holds an activity of the user. It confirms to the Equatable, Comparable and Codable protocol.
+
+## Coordinate.swift
+This is a struct that holds the coordinates and placename of a location. It confirms to the Codable protocol.
+
 # Prerequisites
 For the project we will need the folowing data sources:
 * Google Directions API retrieved from the google developers site

@@ -151,16 +151,23 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
     /// add activity when button is pressed
     @IBAction func calculateButtonPressed(_ sender: UIButton) {
         UIView.animate(withDuration: 0.2) {
+            // define how to act if button is pressed
             if self.calculateButton.isEnabled {
-                self.calculateButton.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
-                self.calculateButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                // Increase button size when pressed
+                UIView.animate(withDuration: 0.2) {
+                    self.calculateButton.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                    self.calculateButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                }
+                // Define latest added ativity
                 let addedActivity = Activity(activity: self.activityLabel.text!, time: self.timePicker.date, endTime: self.endTimePicker.date, location: self.location.text!, transport: self.transportTypeLabel.text!, timeString: self.timeStampe, endTimeString: self.timeStampe2, coordinates: self.locationCoordinates, travelTime: 0, type: "Activity")
-                var temp = true
-                // check if timeslot is available for the activity
+                var timeSlotAvailable = true
+                // Check if timeslot is available for the activity
                 for activity in addedActivities {
                     if (addedActivity.time >= activity.time && addedActivity.time <= activity.endTime) ||  (addedActivity.endTime >= activity.time && addedActivity.endTime <= activity.endTime) || ( addedActivity.time <= activity.time && addedActivity.endTime >= activity.endTime) {
-                        temp = false
+                        // If timeslot not availabkle set temp to false
+                        timeSlotAvailable = false
                         
+                        // Display message that timeslot is not available
                         let alertController = UIAlertController(title: "Eror", message: "There is already an activity planned during this period of time. Please change time.", preferredStyle: .alert)
                         
                         let declineAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -173,26 +180,35 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
                     }
                 }
                 
-                // if time slot is available, add activity and traveltime
-                if temp == true {
+                // If time slot is available, add activity and traveltime
+                if timeSlotAvailable == true {
                     addedActivities.append(addedActivity)
                     var activities = [Activity]()
+                    // Select only the non travel activities
                     for activity in addedActivities {
                         if activity.type == "Activity" {
                             activities.append(activity)
                         }
                         
                     }
+                    
                     addedActivities = activities
-                    if addedActivities.count > 1 {
-                        for index in 0...(addedActivities.count - 2) {
-                            self.calculateTravelTime(startLocation: addedActivities[index].coordinates, endLocation: addedActivities[index+1].coordinates, transportationMode: addedActivities[index+1].transport)
+                    activities = activities.sorted(by: <)
+                    // Calculate travel times between activities
+                    if activities.count > 1 {
+                        for index in 0...(activities.count - 2) {
+                            self.calculateTravelTime(activity1: activities[index], activity2: activities[index+1])
                             }
                     }
-                    self.calculateTravelTime(startLocation: startLocationDictionary[selectedDate]!, endLocation: addedActivities[0].coordinates, transportationMode: addedActivities[0].transport)
+                    // Make a temporary activity, representing the star of the day
+                    let startOfDay = Activity(activity: "Start", time: Date(), endTime: Date(), location: (startLocationDictionary[selectedDate]?.placeName)!, transport: "None", timeString: "None", endTimeString: "None" , coordinates: startLocationDictionary[selectedDate]!, travelTime: 0, type: "Temporary")
+                    // Calculate traveltime, between day start and first real activity
+                    self.calculateTravelTime(activity1: startOfDay, activity2: activities[0])
 
-    
+                    // Add the activity to the date dictionary
                     dateDictionary["\(selectedDate)"] = addedActivities
+                    
+                    // Encode the date dictionary to a plist file
                     let propertyListEncoder = PropertyListEncoder()
                     let encodedDictionary = try? propertyListEncoder.encode(dateDictionary)                    
                     try? encodedDictionary?.write(to: archiveURL, options: .noFileProtection)
@@ -205,11 +221,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
     
     /// allow users to fill in an activity in the textfield
     @IBAction func addActivity(_ sender: UITextField) {
-        userData = true
-        activity.append(activityLabel.text!)
-        UserDefaults.standard.set(activity, forKey: "theActivity")
         time.append(timeStampe)
-        UserDefaults.standard.set(time, forKey: "theTime")
         showButton()
     }
     
@@ -229,7 +241,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         timeLabel.text = timeStampe
     }
     
-    ///
+    /// Update the transport type
     func updateTransportType() {
         if let transportType = transportType {
             transportTypeLabel.text = transportType.name
@@ -239,6 +251,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         showButton()
     }
     
+    // Show button, after user has filled in everything
     func showButton() {
         if transportTypeLabel.text != "Select transport mode" && location.text != "" && activityLabel.text != "" {
             calculateButton.isEnabled = true
@@ -247,7 +260,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         }
     }
     
-    
+    /// Prepare for receiving transport type
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SelectTransportMode" {
             let destinationViewController = segue.destination as? SelectTransportTypeTableViewController
@@ -256,6 +269,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         }
     }
     
+    /// Alow users to choose the location of the action
     @IBAction func openStartLocation(_ sender: UIButton) {
         
         let autoCompleteController = GMSAutocompleteViewController()
@@ -271,48 +285,50 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         self.present(autoCompleteController, animated: true, completion: nil)
     }
     
-    func calculateTravelTime(activity1: Coordinate, activity2: Coordinate, transportationMode: String) {
+    /// A function for calculation the traveltime between two activities
+    /// It takes in two activity structs
+    func calculateTravelTime(activity1: Activity, activity2: Activity) {
         //Import JSON, import Swifty
         
+        // Define travel start
+        let origin = "\(activity1.coordinates.latitude),\(activity1.coordinates.longitude)"
         
-        let origin = "\(startLocation.latitude),\(startLocation.longitude)"
-        let destination = "\(endLocation.latitude),\(endLocation.longitude)"
+        // Define travel destination
+        let destination = "\(activity2.coordinates.latitude),\(activity2.coordinates.longitude)"
         
-        let url2 = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destinations=\(destination)&mode=\(transportationMode)&key=AIzaSyDs9-PYsYSVlhHhZJFJ-jyLZ9azoyA1oSY"
+        // Define google distance matrix api
+        let url2 = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destinations=\(destination)&mode=\(activity2.transport)&key=AIzaSyDs9-PYsYSVlhHhZJFJ-jyLZ9azoyA1oSY"
         
-        
+        // Request data from url
         Alamofire.request(url2).responseJSON { response in
          
          do {
          
-            let json = try JSON(data: response.data!)
-            travelTime = json["rows"][0]["elements"][0]["duration"]["value"].intValue
-            print(" The travel time is: \(travelTime)")
-            let travelTimeStart = Calendar.current.date(byAdding: .second, value: -travelTime, to: (addedActivities.last?.time)!)
-            let dateFormatter = DateFormatter()
+            let json = try JSON(data: response.data!)                                       // Try if data exists
+            travelTime = json["rows"][0]["elements"][0]["duration"]["value"].intValue       // Retrieve travel time from google
+            let travelTimeStart = Calendar.current.date(byAdding: .second, value: -travelTime, to: activity2.time)      // Calculate travel start
+            let dateFormatter = DateFormatter()            // Define dat formate
             dateFormatter.dateStyle = .none
             dateFormatter.timeStyle = .short
+            
+            // Only add travel time, if it is not zero
             if travelTime != 0 {
-                if addedActivities.count > 1 {
-                    let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-2].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[addedActivities.count-2].coordinates, travelTime: travelTime, type: "Travel")
+                let travelActivity = Activity(activity: activity2.transport, time: travelTimeStart!, endTime: activity2.time, location: activity1.location, transport: activity2.transport, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: activity2.timeString, coordinates: activity1.coordinates, travelTime: travelTime, type: "Travel")
                     addedActivities.append(travelActivity)
-                } else {
-                    let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-1].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[0].coordinates, travelTime: travelTime, type: "Travel")
-                    addedActivities.append(travelActivity)
-                }
+
                 dateDictionary[selectedDate] = addedActivities
                 let propertyListEncoder = PropertyListEncoder()
                 let encodedDictionary = try? propertyListEncoder.encode(dateDictionary)
                 try? encodedDictionary?.write(to: archiveURL, options: .noFileProtection)
             }
-            
          } catch {
-            print("Komt deze functie hier?")
+            print(error)
             }
         }
     }
 }
 
+/// Extension to AddActivityTableViewControlle that catches the coordinates of the location the user has chosen
 extension AddActivityTableViewController: GMSAutocompleteViewControllerDelegate {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         location.text = "\(place.name)"

@@ -5,6 +5,7 @@
 //  Created by Michael Berend on 07/06/2018.
 //  Copyright © 2018 Michael Berend. All rights reserved.
 //
+// This is the viewcontroller that displays the daily activities of the user
 
 import UIKit
 import GoogleMaps
@@ -16,12 +17,10 @@ var addedActivities = [Activity]()
 var sortedActivities = [Activity]()
 var activity = [String]()
 var time = [String]()
-var userData = false
 var dateDictionary: [String: [Activity]] = [:]
 var selectedDate = String()
 var selectedActivity: Activity!
 var startLocationDictionary: [String: Coordinate] = [:]
-var travelTimes = [Int]()
 let propertyListDecoder = PropertyListDecoder()
 let documentsDirectory =
     FileManager.default.urls(for: .documentDirectory,
@@ -39,6 +38,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet weak var tableView: UITableView!
     
+    /// Define the number of rows as the number of activities
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dateDictionary[selectedDate]!.count
     }
@@ -47,6 +47,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     var locationSelected = Location.startLocation
     var locationCoordinates: Coordinate!
     
+    /// Tell each cell how to display the activity
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: nil)
         print(time)
@@ -57,8 +58,11 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
+        // Set the title to the date the user has selected
         selectedDate = titlePlanner.title!
+        // If the user has selected a location in the past, set the prompt to that location, else, ask for a location
         if let _ = startLocationDictionary["\(selectedDate)"] {
             titlePlanner.prompt = "Starting location: \(startLocationDictionary["\(selectedDate)"]!.placeName)"
         } else {
@@ -80,8 +84,12 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         let date = Date()
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
+        // Get current date in medium format
         let currentDate = formatter.string(from: date)
+        // Set currend date as selected date when screen is loaded
         selectedDate = currentDate
+        
+        // Try to retrieve the user given activities from the plist
         if let retrievedDictionary = try? Data(contentsOf: archiveURL),
             let decodedDictionary = try? propertyListDecoder.decode([String: [Activity]].self, from: retrievedDictionary) {
             dateDictionary = decodedDictionary
@@ -89,6 +97,8 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
                 addedActivities = dateDictionary[selectedDate]!
             }
         }
+        
+        // Try to download the user given location from the plist
         if let retrievedLocation = try? Data(contentsOf: archiveURL2),
             let decodedDictionary = try? propertyListDecoder.decode([String: Coordinate].self, from: retrievedLocation) {
             startLocationDictionary = decodedDictionary
@@ -102,6 +112,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.didReceiveMemoryWarning()
     }
     
+    /// Alow users to add or delete activities
     @IBAction func showAlert() {
         
         let alertController = UIAlertController(title: "Add activity", message: "Would you like to add an activity, or delete all activities for the day", preferredStyle: .alert)
@@ -128,10 +139,12 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         present(alertController, animated: true, completion: nil)
     }
     
+    /// Prepare for unwind
     @IBAction func unwindToPlanner(unwindSegue: UIStoryboardSegue) {
         
     }
     
+    /// When row is selected, perform segue to show details
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if addedActivities.count > 0 {
             sortedActivities = (dateDictionary[selectedDate]?.sorted(by: <))!
@@ -140,18 +153,19 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    /// Define how to receive data from CalenderViewController
     @IBAction func unwindToDate(segue: UIStoryboardSegue)
     {
 
-         //guard segue.identifier == "saveUnwind" else { return }
          let sourceViewController = segue.source as!
-         ViewController
+         CalendarViewController
+        // Receive the selected date from calendar view controller
          if let newDate = sourceViewController.newDate {
-            print(newDate)
             let formatter = DateFormatter()
             formatter.dateStyle = .medium
             let currentDate = formatter.string(from: newDate)
             titlePlanner.title = "\(currentDate)"
+            // If activities exist for the date, let them be displa
             if let value = dateDictionary["\(currentDate)"] {
                 addedActivities = value
             } else {
@@ -163,6 +177,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.reloadData()
     }
     
+    /// Get the starting location from the view controller
     func getStartLocation() {
         let autoCompleteController = GMSAutocompleteViewController()
         autoCompleteController.delegate = self as GMSAutocompleteViewControllerDelegate
@@ -177,8 +192,8 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.present(autoCompleteController, animated: true, completion: nil)
     }
     
-    
-    @IBAction func optimizeButton(_ sender: UIBarButtonItem) {
+    /// Change the starting location for that day
+    @IBAction func ChangeStartLocationButton(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Change start location", message: "Would you like to change the start location?", preferredStyle: .alert)
         
         let startLocation = UIAlertAction(title: "Yes", style: .default) { (_) -> Void in
@@ -196,7 +211,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 }
 
-
+/// Extend the planner viewcontroler with GMSautocompletecontroller to receive startcoordinates
 extension PlannerViewController: GMSAutocompleteViewControllerDelegate {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         locationCoordinates = Coordinate(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude, placeName: "\(place.name)")

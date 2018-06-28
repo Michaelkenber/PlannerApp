@@ -8,6 +8,7 @@
 //  Copyright © 2018 Michael Berend. All rights reserved.
 //
 //  This is the viewcontroller that represents the map with the daily activities and route
+
 import UIKit
 import GoogleMaps
 import GooglePlaces
@@ -48,17 +49,17 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
 
         self.googleMaps.camera = camera
         self.googleMaps.delegate = self
-        self.googleMaps?.isMyLocationEnabled = true
-        self.googleMaps.settings.myLocationButton = true
-        self.googleMaps.settings.compassButton = true
-        self.googleMaps.settings.zoomGestures = true
+        self.googleMaps?.isMyLocationEnabled = true             // enable user location
+        self.googleMaps.settings.myLocationButton = true        // enable user location button
+        self.googleMaps.settings.compassButton = true           // enable compass button
+        self.googleMaps.settings.zoomGestures = true           // enable zoom
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         googleMaps.clear()
         
-        // get locations from the sorted activities
+        // get locations from the sorted activities, not from the travel types
         if let dailyActivities = dateDictionary[selectedDate] {
             var activities = [Activity]()
             let sortedActivities = dailyActivities.sorted(by: <)
@@ -90,7 +91,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
         }
     }
     
-    /// function to create a marker pin on map
+    /// Function to create a marker pin on map
     func createMarker(titleMarker: String, iconMarker: UIImage, latitude: CLLocationDegrees, longitude: CLLocationDegrees, snippet: String) {
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2DMake(latitude, longitude)
@@ -100,12 +101,12 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
         marker.snippet = snippet
     }
     
-    /// enable current location
+    /// Enable current location
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         googleMaps.isMyLocationEnabled = true
     }
     
-    /// unselect marker if map is moved
+    /// Unselect marker if map is moved
     func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
         googleMaps.isMyLocationEnabled = true
         
@@ -113,6 +114,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
             mapView.selectedMarker = nil
         }
     }
+    
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         googleMaps.isMyLocationEnabled = true
@@ -162,8 +164,4 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
             }
         }
     }
-}
-
-public var screenWidth: CGFloat {
-    return UIScreen.main.bounds.width
 }

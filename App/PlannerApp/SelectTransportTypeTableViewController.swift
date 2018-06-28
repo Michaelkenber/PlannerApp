@@ -9,6 +9,7 @@
 
 import UIKit
 
+
 protocol SelectTransportTypeTableViewControllerDelegate {
     func didSelect(transportType: TransportType)
 }
@@ -27,17 +28,17 @@ class SelectTransportTypeTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
 
-
+    // One section in tableview
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    /// return the rows for each transport type
+    /// Return the rows for each transport type
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return TransportType.all.count
     }
 
-    /// give each row a name and a checkmark if selected
+    /// Give each row a name and a checkmark if selected
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransportTypeCell", for: indexPath)
         let transportType = TransportType.all[indexPath.row]
@@ -52,7 +53,7 @@ class SelectTransportTypeTableViewController: UITableViewController {
         return cell
     }
     
-    /// define the transport type as the cell that is selected
+    /// Define the transport type as the cell that is selected
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         transportType = TransportType.all[indexPath.row]

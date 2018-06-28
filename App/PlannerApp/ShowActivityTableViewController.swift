@@ -26,10 +26,12 @@ class ShowActivityTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityLabel.text = selectedActivity.activity
-        locationLabel.text = selectedActivity.location
-        startTimeLabel.text = selectedActivity.timeString
-        endTimeLabel.text = selectedActivity.endTimeString
+        activityLabel.text = selectedActivity.activity          // Show activity name
+        locationLabel.text = selectedActivity.location          // Show activity location
+        startTimeLabel.text = selectedActivity.timeString       // Show activity starting time
+        endTimeLabel.text = selectedActivity.endTimeString      // Show activity ending time
+        
+        // If travel activity give label "Transport mode: ", else "Activity: "
         if selectedActivity.type == "Travel" {
             TravelActivityLabel.text = "Transport Mode:"
         } else {
@@ -37,7 +39,10 @@ class ShowActivityTableViewController: UITableViewController {
         }
         let cal = Calendar.current
         let components = cal.dateComponents([.minute], from: selectedActivity.time, to: selectedActivity.endTime)
+        // Calculate the duration of each activity
         let diff = components.minute!
+        
+        // Display the minutes on the label
         durationLabel.text = "\(diff) minutes"
         
     }
@@ -47,6 +52,7 @@ class ShowActivityTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /// Delete location row for travel activity
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.section, indexPath.row) {
         case (locationRow.section, locationRow.row):

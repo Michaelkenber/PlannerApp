@@ -44,13 +44,20 @@ I also started writing my report today.
 
 ## 28 June
 Today is D-day. The day, sadly, started of bad, because one of my classmate told me you get graded for committing frequently. I have not done this because merge errors in the subject Heuristics have made me afraid of commenting.
+
 Because i had a lot to do today i decided to keep writing everything down, which i had done, as i did it. In hindside i should have done this each day, because when you look back at your day, you always forget a lot of tiny bug-fixes and implementations into the code.
 The object for today was having a clean code, having a working program with no bugs and finishing the report.
+
 To start of there was a bug in the planner. Data dissapeared after the program was shut down, even though the data was saved in a plist. This was because i had an dictionary with activities and also an array and they got confused. As i mentioned before this was because of the different datastructure i sttarted out with. After fixing this bug, the calendar had another bug. 
+
 The calendar displayed travel times as activities, and placed markers for them on the map. Looking back i should have made a different struct for travel than for normal activities. Maybe i should have also combined them in a dictionary. 
+
 After this i immediately faced my next bug, if i shut down the entire app, close it off and reopen it. The activities would display, however if i added new ones, they would be overwriten. Again, this was caused by the switch in data structure. Also activities could not be selected to show details after the app had closen, for the same reason. 
+
 Next there was a mistake in the planner app. When an activity was addedd in between two others, traveltimes didn't change. This was because travel time was only added along with one activity, therefore the other travel times did not change. I fixed it by recalculating all travel times each time an activity was added.
+
 After this, the calculate traveltime function didn't work anymore. This function selected the last and second to last activities and found the traveltime in between them. However, now everytime i add an activity, the traveltime in between each activity is calculated. I had to change that function, so it takes in two entire activities instead of two locations and a transportype. This lead to alot of reordening of the code.
+
 After this i scanned my code for redundand lines, because the structure was changed so frequently. As it turned out there appeared to be quite a few redunded lines. I also deleted unnecessary pods JTAppleCalender and CalenderLib. 
 I included visuals in the report and finished the classes within it. I added a .gitignore and a license and made a new read me.
-Just before time i fixed a bug, which sometimes had the minumumvalue for the endtimepicker too high. I fixed some spelling errors in the app.
+Just before time i fixed a bug, which sometimes had the minumumvalue for the endtimepicker too high. I fixed some spelling errors in the app. Bug fix -> Deleting items doesn't get encoded.

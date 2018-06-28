@@ -14,4 +14,9 @@ can be found in the license.
 Code of the drawpath function in the CalenderViewController.swift file is for the most part created by Cristian Abella.
 This code can be found on https://stackoverflow.com/questions/22550849/drawing-route-between-two-places-on-gmsmapview-in-ios/35045733.
  
-Code for the CalendarViewController is inspired in part by Suragch. This code can be found on Code inspired by: https://stackoverflow.com/questions/31735228/how-to-make-a-simple-collection-view-with-swift.
+Code for the CalendarViewController is inspired in part by Suragch. This code can be found on: https://stackoverflow.com/questions/31735228/how-to-make-a-simple-collection-view-with-swift.
+
+# Licenses external code
+The external code is retrieved from the stackoverflow website. All user contributions on stackoverflow are licensed under Creative Commons Attribution-Share Alike. Proper attribution is required if you republish any Stack Exchange content.
+
+

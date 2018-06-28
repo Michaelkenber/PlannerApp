@@ -176,12 +176,20 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
                 // if time slot is available, add activity and traveltime
                 if temp == true {
                     addedActivities.append(addedActivity)
-                    if addedActivities.count > 1 {
-                        self.calculateTravelTime(startLocation: addedActivities[addedActivities.count-2].coordinates, endLocation: addedActivities[addedActivities.count-1].coordinates, transportationMode: addedActivities[addedActivities.count-1].transport)
-                            }
-                    if addedActivities.count == 1 {
-                        self.calculateTravelTime(startLocation: startLocationDictionary[selectedDate]!, endLocation: addedActivities[0].coordinates, transportationMode: addedActivities[0].transport)
+                    var activities = [Activity]()
+                    for activity in addedActivities {
+                        if activity.type == "Activity" {
+                            activities.append(activity)
+                        }
+                        
                     }
+                    addedActivities = activities
+                    if addedActivities.count > 1 {
+                        for index in 0...(addedActivities.count - 2) {
+                            self.calculateTravelTime(startLocation: addedActivities[index].coordinates, endLocation: addedActivities[index+1].coordinates, transportationMode: addedActivities[index+1].transport)
+                            }
+                    }
+                    self.calculateTravelTime(startLocation: startLocationDictionary[selectedDate]!, endLocation: addedActivities[0].coordinates, transportationMode: addedActivities[0].transport)
 
     
                     dateDictionary["\(selectedDate)"] = addedActivities
@@ -263,7 +271,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         self.present(autoCompleteController, animated: true, completion: nil)
     }
     
-    func calculateTravelTime(startLocation: Coordinate, endLocation: Coordinate, transportationMode: String) {
+    func calculateTravelTime(activity1: Coordinate, activity2: Coordinate, transportationMode: String) {
         //Import JSON, import Swifty
         
         
@@ -292,6 +300,10 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
                     let travelActivity = Activity(activity: (addedActivities.last?.transport)!, time: travelTimeStart!, endTime: (addedActivities.last?.time)!, location: addedActivities[addedActivities.count-1].location, transport: (addedActivities.last?.transport)!, timeString: dateFormatter.string(from: travelTimeStart!), endTimeString: self.timeStampe, coordinates: addedActivities[0].coordinates, travelTime: travelTime, type: "Travel")
                     addedActivities.append(travelActivity)
                 }
+                dateDictionary[selectedDate] = addedActivities
+                let propertyListEncoder = PropertyListEncoder()
+                let encodedDictionary = try? propertyListEncoder.encode(dateDictionary)
+                try? encodedDictionary?.write(to: archiveURL, options: .noFileProtection)
             }
             
          } catch {

@@ -40,7 +40,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return addedActivities.count
+        return dateDictionary[selectedDate]!.count
     }
     
     var locationManager = CLLocationManager()
@@ -50,10 +50,9 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: nil)
         print(time)
-        if dateDictionary[selectedDate] != nil {
-            sortedActivities = (dateDictionary[selectedDate]?.sorted(by: <))!
-            cell.textLabel?.text = "\(sortedActivities[indexPath.row].activity) from \(sortedActivities[indexPath.row].timeString) to \(sortedActivities[indexPath.row].endTimeString)"
-        }
+        sortedActivities = (dateDictionary[selectedDate]?.sorted(by: <))!
+        cell.textLabel?.text = "\(sortedActivities[indexPath.row].activity) from \(sortedActivities[indexPath.row].timeString) to \(sortedActivities[indexPath.row].endTimeString)"
+        
         
         return cell
     }
@@ -61,7 +60,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidAppear(_ animated: Bool) {
         selectedDate = titlePlanner.title!
         if let _ = startLocationDictionary["\(selectedDate)"] {
-            titlePlanner.prompt = "Starting location: \(startLocationDictionary["\(selectedDate)"]?.placeName as! String)"
+            titlePlanner.prompt = "Starting location: \(startLocationDictionary["\(selectedDate)"]!.placeName)"
         } else {
             titlePlanner.prompt = "Starting location: "
             let alertController = UIAlertController(title: "Start Location", message: "Please fill in the starting location for \(selectedDate)" , preferredStyle: .alert)
@@ -78,6 +77,11 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         let propertyListDecoder = PropertyListDecoder()
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        let currentDate = formatter.string(from: date)
+        selectedDate = currentDate
         if let retrievedDictionary = try? Data(contentsOf: archiveURL),
             let decodedDictionary = try? propertyListDecoder.decode([String: [Activity]].self, from: retrievedDictionary) {
             dateDictionary = decodedDictionary
@@ -90,30 +94,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
             startLocationDictionary = decodedDictionary
         }
         super.viewDidLoad()
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        let currentDate = formatter.string(from: date)
         titlePlanner.title = currentDate
-        selectedDate = currentDate
-        
-        /*
-        
-        userData = UserDefaults.standard.bool(forKey: "userData")
-        
-        if userData == true {
-            startLocationDictionary = UserDefaults.standard.object(forKey: "theActivity") as! [String: CLLocation]
-        } else {
-            /*
-            activity.append("NO USER DATA")
-            UserDefaults.standard.set(activity, forKey: "theActivity")
-            if activity[0] == "NO USER DATA" {
-                activity.remove(at: 0)
-                UserDefaults.standard.set(activity, forKey: "theActivity")
-            }
-            */
-        }
-        */
         tableView.reloadData()
     }
 
@@ -153,7 +134,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if addedActivities.count > 0 {
-            sortedActivities = addedActivities.sorted(by: <)
+            sortedActivities = (dateDictionary[selectedDate]?.sorted(by: <))!
             selectedActivity = sortedActivities[indexPath.item]
             self.performSegue(withIdentifier: "showActivity", sender: self)
         }
@@ -212,32 +193,6 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         alertController.addAction(startLocation)
         
         present(alertController, animated: true, completion: nil)
-    }
-    
-    func calculateTravelTime(startLocation: Coordinate, endLocation: Coordinate, transportationMode: String) {
-        //Import JSON, import Swifty
-        
-        
-        let origin = "\(startLocation.latitude),\(startLocation.longitude)"
-        let destination = "\(endLocation.latitude),\(endLocation.longitude)"
-        
-        let url2 = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destinations=\(destination)&mode=\(transportationMode)&key=AIzaSyDs9-PYsYSVlhHhZJFJ-jyLZ9azoyA1oSY"
-        
-        
-        Alamofire.request(url2).responseJSON { response in
-            
-            do {
-                
-                let json = try JSON(data: response.data!)
-                travelTime = json["rows"][0]["elements"][0]["duration"]["value"].intValue
-                travelTimes.append(travelTime)
-                print(travelTimes)
-                
-
-            } catch {
-                print("Komt deze functie hier?")
-            }
-        }
     }
 }
 

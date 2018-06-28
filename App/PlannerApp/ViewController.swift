@@ -56,7 +56,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         startMonth = Calendar.current.component(.month, from: Date()) - 1
         currentWeekDay = Calendar.current.component(.weekday, from: Date()) - 1
         currentDay = Calendar.current.component(.day, from: Date())
-        startDay = (7 + startDay - (currentDay - 1)%7)%7
+        startDay = (7 + currentWeekDay - (currentDay - 1)%7)%7
         print("Startday is: \(startDay)")
         print(currentWeekDay)
         print(startDay)

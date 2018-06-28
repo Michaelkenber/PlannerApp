@@ -38,6 +38,13 @@ Last, but not least, the user can view his entire day in the MapViewController. 
 
 ![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/MapScreen.png)
 
+# Prerequisites
+For the project we will need the folowing data sources:
+* Google Directions API retrieved from the google developers site
+* Google Distance Matrix API retrieved from the google developers site
+* Google Maps SDK for IOS API retrieved from the google developers site
+* Google Places SDK for IOS API retrieved from the google developers site
+
 # Challenges
 To my opinion this project really challenged me. The app planning at the start of the project is a good way to have a clear picture
 of something you want to work too, hower i did notice my dissapointment when a wasn't able to reach this picture i had.
@@ -86,3 +93,5 @@ is not userfriendly and if it would definately prefer not to have it like this.
 
 Other extra options are cirkeling the current date in the calendar. Deleting routes that have already been, so a user only sees the route to be.
 Improving the lay out, to make it more pleasing to the users eye.
+
+

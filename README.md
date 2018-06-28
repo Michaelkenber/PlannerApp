@@ -5,6 +5,12 @@ travel time from the former activity, given a mode of transport.
 
 # Visualisations
 Below are a couple visualisations of the planner app. More visualisations are provided in REPORT.MD.
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/LaunchScreen.png)
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/LocationScreens.png)
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/ActivityScreens.png)
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/PlannerScreens.png)
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/MonthScreens.png)
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/MapScreen.png)
 
 # Copyright
 Copyright (c) 2018 Michael Berend. The materials in this repository are owned by Michael Berend. More information concerning copyright

@@ -168,7 +168,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
                         timeSlotAvailable = false
                         
                         // Display message that timeslot is not available
-                        let alertController = UIAlertController(title: "Eror", message: "There is already an activity planned during this period of time. Please change time.", preferredStyle: .alert)
+                        let alertController = UIAlertController(title: "Error", message: "There is already an activity planned during this period of time. Please change time.", preferredStyle: .alert)
                         
                         let declineAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                         

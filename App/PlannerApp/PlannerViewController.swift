@@ -40,7 +40,11 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     /// Define the number of rows as the number of activities
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dateDictionary[selectedDate]!.count
+        if let dateDict = dateDictionary[selectedDate] {
+            return dateDict.count
+        } else {
+            return 0
+        }
     }
     
     var locationManager = CLLocationManager()

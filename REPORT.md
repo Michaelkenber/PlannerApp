@@ -11,7 +11,32 @@ From the PlannerViewController, users can go to the ShowActivityViewController a
 ![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/PlannerRelation.png)
 
 From here we have one final ViewController, the SelectTransportTypeViewController. Here a user can select a transport type.
+
 ![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/AddActivityRelation.png)
+
+If a user starts the app he ise first greeted by the launch screen, which is seen below.
+
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/LaunchScreen.png)
+
+Next the user is prompted for the startlocation, were an autocomplete from google helps him find the location. If the user wishes to change the start location, he may do so may do so.
+
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/LocationScreens.png)
+
+If the user wants to add an activity, he can press the + button right above. In the screen he will only be able to add an activity if he has filled in all the fields. A time picker makes it easier for the user to select the time.
+
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/ActivityScreens.png)
+
+When an activity is added, the user can preview it in his planner screen. He can also click an transportationmode or activity to see more details.
+
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/PlannerScreens.png)
+
+If the user wants to select a date in Juli, he can go to his date scene and move to that month. When he selects a cell it is highlighted an a "Go to date" button appears. He can then select it to go to the corresponding date.
+
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/MonthScreens.png)
+
+Last, but not least, the user can view his entire day in the MapViewController. As seen below.
+
+![alt text](https://github.com/Michaelkenber/PlannerApp/blob/master/doc/MapScreen.png)
 
 # Challenges
 To my opinion this project really challenged me. The app planning at the start of the project is a good way to have a clear picture

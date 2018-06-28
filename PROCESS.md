@@ -53,4 +53,4 @@ Next there was a mistake in the planner app. When an activity was addedd in betw
 After this, the calculate traveltime function didn't work anymore. This function selected the last and second to last activities and found the traveltime in between them. However, now everytime i add an activity, the traveltime in between each activity is calculated. I had to change that function, so it takes in two entire activities instead of two locations and a transportype. This lead to alot of reordening of the code.
 After this i scanned my code for redundand lines, because the structure was changed so frequently. As it turned out there appeared to be quite a few redunded lines. I also deleted unnecessary pods JTAppleCalender and CalenderLib. 
 I included visuals in the report and finished the classes within it. I added a .gitignore and a license and made a new read me.
-Just before time i fixed a bug, which sometimes had the minumumvalue for the endtimepicker to high. I fixed some spelling errors in the app.
+Just before time i fixed a bug, which sometimes had the minumumvalue for the endtimepicker too high. I fixed some spelling errors in the app.

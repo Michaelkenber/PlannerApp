@@ -10,7 +10,7 @@ import Foundation
 import GooglePlaces
 
 
-struct Activity: Equatable, Comparable {
+struct Activity: Equatable, Comparable, Codable {
     var activity: String
     var time: Date
     var endTime: Date
@@ -18,13 +18,9 @@ struct Activity: Equatable, Comparable {
     var transport: String
     var timeString: String
     var endTimeString: String
-    var coordinates: CLLocation
+    var coordinates: Coordinate
     var travelTime: Int
     var type: String
-    //var preferences: [String]
-
-    //Inspired by: https://medium.com/if-let-swift-programming/migrating-to-codable-from-nscoding-ddc2585f28a4
-
     
     static func < (lhs: Activity, rhs: Activity) -> Bool {
         return lhs.time < rhs.time
@@ -35,8 +31,7 @@ struct Activity: Equatable, Comparable {
             rhs.time && lhs.endTime == rhs.endTime &&
             lhs.location == rhs.location && lhs.transport ==
             rhs.transport && lhs.timeString == rhs.timeString &&
-            lhs.endTimeString == rhs.endTimeString && lhs.coordinates ==
-            rhs.coordinates && lhs.travelTime == rhs.travelTime &&
+            lhs.endTimeString == rhs.endTimeString && lhs.travelTime == rhs.travelTime &&
             lhs.type == rhs.type
     }
 }

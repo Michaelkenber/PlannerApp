@@ -20,8 +20,18 @@ var userData = false
 var dateDictionary: [String: [Activity]] = [:]
 var selectedDate = String()
 var selectedActivity: Activity!
-var startLocationDictionary: [String: CLLocation] = [:]
+var startLocationDictionary: [String: Coordinate] = [:]
 var travelTimes = [Int]()
+let propertyListDecoder = PropertyListDecoder()
+let documentsDirectory =
+    FileManager.default.urls(for: .documentDirectory,
+        in: .userDomainMask).first!
+let archiveURL =
+    documentsDirectory.appendingPathComponent("dateDictionary")
+        .appendingPathExtension("plist")
+let archiveURL2 =
+    documentsDirectory.appendingPathComponent("locationDictionary")
+        .appendingPathExtension("plist")
 
 class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GMSMapViewDelegate ,  CLLocationManagerDelegate {
 
@@ -30,20 +40,20 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(addedActivities.count)
         return addedActivities.count
     }
     
     var locationManager = CLLocationManager()
     var locationSelected = Location.startLocation
-    var locationCoordinates = CLLocation()
-    
+    var locationCoordinates: Coordinate!
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: nil)
         print(time)
-        sortedActivities = addedActivities.sorted(by: <)
-        cell.textLabel?.text = "\(sortedActivities[indexPath.row].activity) from \(sortedActivities[indexPath.row].timeString) to \(sortedActivities[indexPath.row].endTimeString)"
+        if dateDictionary[selectedDate] != nil {
+            sortedActivities = (dateDictionary[selectedDate]?.sorted(by: <))!
+            cell.textLabel?.text = "\(sortedActivities[indexPath.row].activity) from \(sortedActivities[indexPath.row].timeString) to \(sortedActivities[indexPath.row].endTimeString)"
+        }
         
         return cell
     }
@@ -51,7 +61,9 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidAppear(_ animated: Bool) {
         selectedDate = titlePlanner.title!
         if let _ = startLocationDictionary["\(selectedDate)"] {
+            titlePlanner.prompt = "Starting location: \(startLocationDictionary["\(selectedDate)"]?.placeName as! String)"
         } else {
+            titlePlanner.prompt = "Starting location: "
             let alertController = UIAlertController(title: "Start Location", message: "Please fill in the starting location for \(selectedDate)" , preferredStyle: .alert)
             
             
@@ -65,6 +77,18 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     override func viewDidLoad() {
+        let propertyListDecoder = PropertyListDecoder()
+        if let retrievedDictionary = try? Data(contentsOf: archiveURL),
+            let decodedDictionary = try? propertyListDecoder.decode([String: [Activity]].self, from: retrievedDictionary) {
+            dateDictionary = decodedDictionary
+            if dateDictionary[selectedDate] != nil {
+                addedActivities = dateDictionary[selectedDate]!
+            }
+        }
+        if let retrievedLocation = try? Data(contentsOf: archiveURL2),
+            let decodedDictionary = try? propertyListDecoder.decode([String: Coordinate].self, from: retrievedLocation) {
+            startLocationDictionary = decodedDictionary
+        }
         super.viewDidLoad()
         let date = Date()
         let formatter = DateFormatter()
@@ -99,35 +123,32 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func showAlert() {
         
-        let alertController = UIAlertController(title: "Add activity", message: "Would you like to add an activity?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Add activity", message: "Would you like to add an activity, or delete all activities for the day", preferredStyle: .alert)
         
         
-        let optimize = UIAlertAction(title: "Yes", style: .default) { (_) -> Void in
+        let addActivity = UIAlertAction(title: "Yes", style: .default) { (_) -> Void in
             
             self.performSegue(withIdentifier: "optimize", sender: self) 
+        }
+        
+        let deleteAll = UIAlertAction(title: "Delete all activities", style: .default) { (_) -> Void in
+            addedActivities = []
+            dateDictionary[selectedDate] = addedActivities
+            self.tableView.reloadData()
+            
         }
 
         let declineAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        alertController.addAction(optimize)
+        alertController.addAction(addActivity)
         alertController.addAction(declineAction)
+        alertController.addAction(deleteAll)
 
         present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func unwindToPlanner(unwindSegue: UIStoryboardSegue) {
         
-    }
-    
-    func tableView(_ tableView: UITableView, commit
-        editingStyle: UITableViewCellEditingStyle, forRowAt indexPath:
-        IndexPath) {
-        if editingStyle == .delete {
-            sortedActivities.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: . automatic)
-            //UserDefaults.standard.set(activity, forKey: "theEvent")
-        }
-        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -179,7 +200,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func optimizeButton(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Change start location", message: "Would you like to change the start location?", preferredStyle: .alert)
         
-        let startLocation = UIAlertAction(title: "Change Start location", style: .default) { (_) -> Void in
+        let startLocation = UIAlertAction(title: "Yes", style: .default) { (_) -> Void in
             
             self.getStartLocation()
         }
@@ -193,12 +214,12 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         present(alertController, animated: true, completion: nil)
     }
     
-    func calculateTravelTime(startLocation: CLLocation, endLocation: CLLocation, transportationMode: String) {
+    func calculateTravelTime(startLocation: Coordinate, endLocation: Coordinate, transportationMode: String) {
         //Import JSON, import Swifty
         
         
-        let origin = "\(startLocation.coordinate.latitude),\(startLocation.coordinate.longitude)"
-        let destination = "\(endLocation.coordinate.latitude),\(endLocation.coordinate.longitude)"
+        let origin = "\(startLocation.latitude),\(startLocation.longitude)"
+        let destination = "\(endLocation.latitude),\(endLocation.longitude)"
         
         let url2 = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destinations=\(destination)&mode=\(transportationMode)&key=AIzaSyDs9-PYsYSVlhHhZJFJ-jyLZ9azoyA1oSY"
         
@@ -223,9 +244,14 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 extension PlannerViewController: GMSAutocompleteViewControllerDelegate {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        locationCoordinates = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-        startLocationDictionary["\(selectedDate)"] = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+        locationCoordinates = Coordinate(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude, placeName: "\(place.name)")
+        startLocationDictionary["\(selectedDate)"] = Coordinate(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude, placeName: "\(place.name)")
         titlePlanner.prompt = "Starting location: \(place.name)"
+        let propertyListEncoder = PropertyListEncoder()
+        let encodedCoordinate = try? propertyListEncoder.encode(startLocationDictionary)
+        
+        try? encodedCoordinate?.write(to: archiveURL2, options: .noFileProtection)
+        
         self.dismiss(animated: true, completion: nil)
     }
     

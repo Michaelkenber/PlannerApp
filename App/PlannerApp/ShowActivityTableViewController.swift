@@ -37,7 +37,7 @@ class ShowActivityTableViewController: UITableViewController {
         }
         let cal = Calendar.current
         let components = cal.dateComponents([.minute], from: selectedActivity.time, to: selectedActivity.endTime)
-        let diff = components.hour!
+        let diff = components.minute!
         durationLabel.text = "\(diff) minutes"
         
     }

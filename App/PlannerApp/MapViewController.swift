@@ -27,8 +27,8 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
     var locationManager = CLLocationManager()
     var locationSelected = Location.startLocation
     
-    var locationStart = CLLocation()
-    var locationEnd = CLLocation()
+    var locationStart: Coordinate!
+    var locationEnd: Coordinate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
         
 
         // set camera at startlocation
-        let camera = GMSCameraPosition.camera(withLatitude: (startLocationDictionary[selectedDate]?.coordinate.latitude)!, longitude: (startLocationDictionary[selectedDate]?.coordinate.longitude)!, zoom: 4.0)
+        let camera = GMSCameraPosition.camera(withLatitude: (startLocationDictionary[selectedDate]?.latitude)!, longitude: (startLocationDictionary[selectedDate]?.longitude)!, zoom: 4.0)
         
 
         self.googleMaps.camera = camera
@@ -60,7 +60,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
         
         // get locations from the sorted activities
         if let dailyActivities = dateDictionary[selectedDate] {
-            var locations = [CLLocation]()
+            var locations = [Coordinate]()
             let sortedActivities = dailyActivities.sorted(by: <)
             for activity in sortedActivities {
                 locations.append(activity.coordinates)
@@ -69,20 +69,20 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
             // draw paths between activities and place markes
             if locations.count > 1 {
                 for index in 0...(locations.count - 2) {
-                    drawPath(startLocation: locations[index], endLocation: locations[index + 1])
-                    createMarker(titleMarker: sortedActivities[index].activity, iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: locations[index].coordinate.latitude, longitude: locations[index].coordinate.longitude, snippet: "\(sortedActivities[index].time) - \(sortedActivities[index].endTime)")
+                    drawPath(startLocation: locations[index], endLocation: locations[index + 1], transport: sortedActivities[index + 1].transport)
+                    createMarker(titleMarker: sortedActivities[index].activity, iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: locations[index].latitude, longitude: locations[index].longitude, snippet: "\(sortedActivities[index].timeString) - \(sortedActivities[index].endTimeString)")
                 }
             }
             
             // determine route from start location to first activity, and place markers
             if locations.count > 0 {
                 let startLocation = startLocationDictionary[selectedDate]
-                createMarker(titleMarker: "Start location", iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: (startLocation?.coordinate.latitude)!, longitude: (startLocation?.coordinate.longitude)!, snippet: "Have a nice start of your day")
-                let camera = GMSCameraPosition.camera(withLatitude: (locations.first?.coordinate.latitude)!, longitude: (locations.first?.coordinate.longitude)!, zoom: 10.0)
+                createMarker(titleMarker: "Start location", iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: (startLocation?.latitude)!, longitude: (startLocation?.longitude)!, snippet: "Have a nice start of your day")
+                let camera = GMSCameraPosition.camera(withLatitude: (locations.first?.latitude)!, longitude: (locations.first?.longitude)!, zoom: 10.0)
                 self.googleMaps?.animate(to: camera)
-                drawPath(startLocation: (startLocation)!, endLocation: locations[0])
+                drawPath(startLocation: (startLocation)!, endLocation: locations[0], transport: sortedActivities[0].transport)
                 if locations.count == 1 {
-                    createMarker(titleMarker: sortedActivities[0].activity, iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: locations[0].coordinate.latitude, longitude: locations[0].coordinate.longitude, snippet: "\(sortedActivities[0].time) - \(sortedActivities[0].endTime)")
+                    createMarker(titleMarker: sortedActivities[0].activity, iconMarker: #imageLiteral(resourceName: "mapspin"), latitude: locations[0].latitude, longitude: locations[0].longitude, snippet: "\(sortedActivities[0].timeString) - \(sortedActivities[0].endTimeString)")
                 }
             }
         }
@@ -127,11 +127,11 @@ class MapViewController: UIViewController , GMSMapViewDelegate ,  CLLocationMana
     
   
     /// draw a path between two given locations
-    func drawPath(startLocation: CLLocation, endLocation: CLLocation)
+    func drawPath(startLocation: Coordinate, endLocation: Coordinate, transport: String)
     {
         // define start and end
-        let origin = "\(startLocation.coordinate.latitude),\(startLocation.coordinate.longitude)"
-        let destination = "\(endLocation.coordinate.latitude),\(endLocation.coordinate.longitude)"
+        let origin = "\(startLocation.latitude),\(startLocation.longitude)"
+        let destination = "\(endLocation.latitude),\(endLocation.longitude)"
         
         // define url
         let url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode=driving&key=AIzaSyDs9-PYsYSVlhHhZJFJ-jyLZ9azoyA1oSY"

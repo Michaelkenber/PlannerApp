@@ -14,6 +14,7 @@ import Alamofire
 import SwiftyJSON
 
 var travelTime = 0
+let propertyListEncoder = PropertyListEncoder()
 
 
 
@@ -35,7 +36,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
     var locationManager = CLLocationManager()
     var locationSelected = Location.startLocation
     
-    var locationCoordinates = CLLocation()
+    var locationCoordinates: Coordinate!
 
     
     
@@ -184,6 +185,10 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
 
     
                     dateDictionary["\(selectedDate)"] = addedActivities
+                    let propertyListEncoder = PropertyListEncoder()
+                    let encodedDictionary = try? propertyListEncoder.encode(dateDictionary)                    
+                    try? encodedDictionary?.write(to: archiveURL, options: .noFileProtection)
+                    
                 }
             }
         }
@@ -258,12 +263,12 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
         self.present(autoCompleteController, animated: true, completion: nil)
     }
     
-    func calculateTravelTime(startLocation: CLLocation, endLocation: CLLocation, transportationMode: String) {
+    func calculateTravelTime(startLocation: Coordinate, endLocation: Coordinate, transportationMode: String) {
         //Import JSON, import Swifty
         
         
-        let origin = "\(startLocation.coordinate.latitude),\(startLocation.coordinate.longitude)"
-        let destination = "\(endLocation.coordinate.latitude),\(endLocation.coordinate.longitude)"
+        let origin = "\(startLocation.latitude),\(startLocation.longitude)"
+        let destination = "\(endLocation.latitude),\(endLocation.longitude)"
         
         let url2 = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destinations=\(destination)&mode=\(transportationMode)&key=AIzaSyDs9-PYsYSVlhHhZJFJ-jyLZ9azoyA1oSY"
         
@@ -299,7 +304,7 @@ class AddActivityTableViewController: UITableViewController, SelectTransportType
 extension AddActivityTableViewController: GMSAutocompleteViewControllerDelegate {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         location.text = "\(place.name)"
-        locationCoordinates = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+        locationCoordinates = Coordinate(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude, placeName: "\(place.name)")
         self.dismiss(animated: true, completion: nil)
         showButton()
     }
